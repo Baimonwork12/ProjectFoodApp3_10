@@ -62,7 +62,10 @@ class _cartState extends State<cart> {
                       onTap: (){
                  Navigator.push(context, MaterialPageRoute(builder: (context)=> Listviewmenu(
                   
-                selectorder:  documents[index].reference,) ,settings: RouteSettings(arguments: documents)));
+                selectorder:  data.reference
+                // documents[index].reference,
+                ) ,
+                settings: RouteSettings(arguments: documents)));
             }
                     );
                   },

@@ -58,7 +58,7 @@ double totalPrice = basePrice * numTotal;
     'ไข่': egg,
     'ราคา': basePrice.toStringAsFixed(2), // Format the price to 2 decimal places
    'จำนวน': numTotal,
-   'ราคารวม': totalPrice.toStringAsFixed(2),
+   'รวม': totalPrice.toStringAsFixed(2),
   };
 
   // You can use the updated datamenumankai for further processing or send it as needed.
