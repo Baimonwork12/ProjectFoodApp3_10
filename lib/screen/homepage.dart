@@ -21,7 +21,7 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: Text('หน้าหลัก'),),
+      appBar: AppBar(title: const Text('หน้าหลัก'),),
       body: StreamBuilder<QuerySnapshot>(
       stream: FirebaseFirestore.instance.collection('Shop').snapshots(),
       builder: (context, snapshot) {

@@ -50,7 +50,7 @@ class _ListviewmenuState extends State<Listviewmenu> {
                 return ListView.builder(
                   itemCount: documents.length,
                   itemBuilder: (context, index) {
-                    final data = documents[index].data() as Map<String, dynamic>;
+                    final data = documents[index];
                     return ListTile(
                         title: Wrap(
                           children: [
