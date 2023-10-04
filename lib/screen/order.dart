@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 
 
+// ignore: camel_case_types
 class order extends StatefulWidget {
   const order({super.key});
 
@@ -17,7 +18,7 @@ class _orderState extends State<order> {
   Widget build(BuildContext context) {
    
     return Scaffold(
-      appBar: AppBar(title:Text('ออเดอร์') ,),
+      appBar: AppBar(title:const Text('ออเดอร์') ,),
       
       
     );

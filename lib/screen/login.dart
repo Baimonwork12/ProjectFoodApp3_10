@@ -7,6 +7,8 @@ import 'package:flutter/material.dart';
 import 'package:food_app/bottom_nav.dart';
 import 'package:food_app/shop/adddata/add_datashop.dart';
 
+
+
 import 'package:google_sign_in/google_sign_in.dart';
 
 class MyWidget extends StatefulWidget {
@@ -66,6 +68,9 @@ class _MyWidgetState extends State<MyWidget> {
     }
   }
   // ฟังก์ชั่นSig
+ 
+
+
   Future<UserCredential?> signInWithGoogleshop() async {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
@@ -84,7 +89,7 @@ return null;
 // ฟังก์ชันตรวจสอบว่ามีบัญชีผู้ใช้ในฐานข้อมูลหรือไม่
 Future<bool> checkIfUserExistsInDatabase(String email) async {
   final firestore = FirebaseFirestore.instance;
-  final userDoc = await firestore.collection('users').doc(email).get();
+  final userDoc = await firestore.collection('Shop').doc(email).get();
   return userDoc.exists;
 }
 

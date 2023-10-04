@@ -74,7 +74,7 @@ class _MenuShopState extends State<MenuShop> {
   onPressed: () {
     // เรียกใช้ฟังก์ชัน editData()
     editData(documents[index].reference, data['แก้ไข']);
-    Navigator.push(context,MaterialPageRoute(builder: (context)=> EditDataPopup(documentReference: documentReference, data: data)))
+    // Navigator.push(context,MaterialPageRoute(builder: (context)=> EditDataPopup(documentReference: documentReference, data: data)))
   },
   icon: Icon(Icons.edit, size: 20, color: Colors.black),
 ),

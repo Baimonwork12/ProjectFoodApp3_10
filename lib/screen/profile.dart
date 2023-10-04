@@ -68,8 +68,8 @@ class _ProfileState extends State<Profile> {
           // final photoURL = data['photoURL'];
 
           return ListTile(
-            title: Text(data['เมนู']),
-            subtitle: Text(data['จำนวน']),
+            
+           
             trailing: Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
