@@ -1,4 +1,8 @@
+
 import 'package:flutter/material.dart';
+
+
+
 
 
 
@@ -18,9 +22,7 @@ class _orderState extends State<order> {
   Widget build(BuildContext context) {
    
     return Scaffold(
-      appBar: AppBar(title:const Text('ออเดอร์') ,),
-      
-      
+      appBar: AppBar(title: Text('ออเดอร์')),
     );
   }
 }

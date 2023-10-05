@@ -17,9 +17,9 @@ class _OrdershopState extends State<Ordershop> {
       appBar: AppBar(title: Text('รายการสั่ง')),
        body:StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
-            .collection('users')
-            .doc('testerappfood.user@gmail.com')
-            .collection('Orderuser')
+            .collection('Shop')
+            .doc('tbk1243@gmail.com')
+            .collection('Ordershop')
             
             .snapshots(),
         builder: (context, snapshot){

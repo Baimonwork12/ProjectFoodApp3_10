@@ -13,6 +13,21 @@ class cart extends StatefulWidget {
 // ignore: camel_case_types
 class _cartState extends State<cart> {
   
+Future<void> sendUserDataToDB(List<DocumentSnapshot> cartDocuments) async {
+  // Get a reference to the Firestore database.
+  final FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  // Create a new collection called "Orders".
+  final CollectionReference ordersCollection = firestore.collection('Orders');
+
+  // Iterate over the cart documents and add each one to the Firestore database.
+  for (final DocumentSnapshot document in cartDocuments) {
+    final Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+
+    // Add the document to the Firestore database.
+    await ordersCollection.add(data);
+  }
+}
 
 
 
@@ -90,26 +105,26 @@ class _cartState extends State<cart> {
     return const Text("ไม่มีข้อมูล");
   },
 ),
-          Positioned(
-            bottom: 10,
-            right: 15,
-            child: 
-            Container( color: Colors.green.shade300,
-              child: IconButton( 
+          // Positioned(
+          //   bottom: 10,
+          //   right: 15,
+          //   child: 
+          //   Container( color: Colors.green.shade300,
+          //     child: IconButton( 
                 
-                onPressed: () {
-                  // sendUserDataToDB()
-                },
+          //       onPressed: () {
+                  
+          //       },
                 
-                icon: const Row(mainAxisAlignment: MainAxisAlignment.center,
-                  children: [ Text('สั่งซื้อ',style: TextStyle(fontSize: 25),),
-                    Icon(Icons.shopping_cart),
-                  ],
-                ),
+          //       icon: const Row(mainAxisAlignment: MainAxisAlignment.center,
+          //         children: [ Text('สั่งซื้อ',style: TextStyle(fontSize: 25),),
+          //           Icon(Icons.shopping_cart),
+          //         ],
+          //       ),
                 
-              ),
-            ),
-          ),
+          //     ),
+          //   ),
+          // ),
         ],
       ),
     );

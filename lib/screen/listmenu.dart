@@ -1,5 +1,10 @@
+
+
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+
+
 
 class Listviewmenu extends StatefulWidget {
   final DocumentReference selectorder;
@@ -11,7 +16,100 @@ class Listviewmenu extends StatefulWidget {
 }
 
 class _ListviewmenuState extends State<Listviewmenu> {
+
+Future<void> saveOrder() async {
+  // ประกาศตัวแปร data ก่อนการเรียกใช้ StreamBuilder
+  final data = await widget.selectorder.get();
+
+  // บันทึกข้อมูลลงใน Firebase
+  final FirebaseAuth auth = FirebaseAuth.instance;
+  Map<String, dynamic> datamenu = {
+    'เมนู': data['เมนู'],
+    'รายละเอียด': data['รายละเอียด'],
+    'อื่นๆ': data['อื่นๆ'],
+    // ignore: equal_keys_in_map
+    'เพิ่มเติม': data['เพิ่มเติม'],
+    'ไข่': data['ไข่'],
+    'ราคา': data['ราคา'], // Format the price to 2 decimal places
+   'จำนวน': data['จำนวน'],
+   'รวม': data['รวม'],
+  };
+  var currentUser = auth.currentUser;
+  if (currentUser != null) {
+    CollectionReference userMainCollection =
+        FirebaseFirestore.instance.collection("Shop");
+
+    CollectionReference ShopOrderSubCollection =
+        userMainCollection.doc('tbk1243@gmail.com').collection('Ordershop');
+
+    print('email :$currentUser.email');
+    // await userOrderSubCollection.doc(data['เมนู']).get();
+    //แก้ไขเป็น
+   await ShopOrderSubCollection.doc(datamenu['เมนู']).set(datamenu);
+
+    // ลบข้อมูลในหน้า Cart
+  Scaffold(body: Text('ไม่มีข้อมูล'),);
+  }
+
+  // แสดงข้อความแจ้งเตือน
+  ScaffoldMessenger.of(context).showSnackBar(
+    SnackBar(
+      content: Text('ข้อมูลถูกบันทึกสำเร็จ'),
+    ),
+  );
+}
+
+
+// ประกาศตัวแปร userMainCollection
+// CollectionReference userMainCollection =
+//     FirebaseFirestore.instance.collection("order");
+
+// Future<void> saveOrder() async {
+//   // ประกาศตัวแปร data ก่อนการเรียกใช้ StreamBuilder
+//   final data = await widget.selectorder.get();
+
+//   // บันทึกข้อมูลลงใน Firebase
+//   final FirebaseAuth auth = FirebaseAuth.instance;
+//   Map<String, dynamic> datamenu = {
+//     'เมนู': data['เมนู'],
+//     'รายละเอียด': data['รายละเอียด'],
+//     'อื่นๆ': data['อื่นๆ'],
+//     // ignore: equal_keys_in_map
+//     'เพิ่มเติม': data['เพิ่มเติม'],
+//     'ไข่': data['ไข่'],
+//     'ราคา': data['ราคา'], // Format the price to 2 decimal places
+//    'จำนวน': data['จำนวน'],
+//    'รวม': data['รวม'],
+//   };
+//   var currentUser = auth.currentUser;
+//   if (currentUser != null) {
+//     // ประกาศตัวแปร ShopOrderSubCollection
+//     CollectionReference ShopOrderSubCollection;
+
+//     // เพิ่มเงื่อนไขเพื่อตรวจสอบประเภทเมนู
+//     if (data['เมนู'] ==null) {
+//       // บันทึกข้อมูลลงในเอกสาร `Ordershop` ของร้านข้าวมันไก่
+//       ShopOrderSubCollection = userMainCollection.doc("ข้าวมันไก่").collection('Ordershop');
+//     } else {
+//       // บันทึกข้อมูลลงในเอกสาร `Ordershop` ของร้านอาหารตามสั่ง
+//       ShopOrderSubCollection = userMainCollection.doc("อาหารตามสั่ง").collection('Ordershop');
+//     }
+
+//     // เปลี่ยน doc().collection('Ordershop') เป็น doc(datamenu['เมนู']).collection('Ordershop')
+//     await ShopOrderSubCollection.doc(datamenu['เมนู']).set(datamenu);
+
+//     //แสดงข้อมูล
+//     print('ข้อมูลบันทึกสำเร็จ');
+//   }
+// }
+
+
+
+
+
+
   @override
+  
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -68,36 +166,10 @@ class _ListviewmenuState extends State<Listviewmenu> {
               child: TextButton(
                 child: Text('ลบ',style: TextStyle(fontSize: 30,color: Colors.white),),
                 onPressed: () {
-                  // แสดงข้อความแจ้งก่อนลบเอกสาร
-                  showDialog(
-                    context: context,
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('ลบเอกสาร'),
-                        content: Text('คุณต้องการลบเอกสารนี้หรือไม่'),
-                        actions: [
-                          TextButton(
-                            child: Text('ยกเลิก'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                          TextButton(
-                            child: Text('ลบ'),
-                            onPressed: () {
-                              // ลบเอกสารในตำแหน่ง index
-                              documents[index].reference.delete();
-                              Navigator.of(context).pop();
-                            },
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                  
                 },
               ),
             ),
-
             
             // เพิ่ม Container ว่างเปล่าเพื่อเพิ่มระยะห่าง
             Container(
@@ -110,7 +182,11 @@ class _ListviewmenuState extends State<Listviewmenu> {
               child: TextButton(
                 child: Text('สั่งซื้อ',style: TextStyle(fontSize: 30,color: Colors.white)),
                 onPressed: () {
-                  
+                saveOrder();
+                // ลบข้อมูลในหน้า Cart
+               Scaffold(body: Text('ไม่มีข้อมูล'),);
+                // กลับสู่หน้าหลัก
+                Navigator.pop(context);
                 },
               ),
             ),
