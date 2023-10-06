@@ -54,6 +54,12 @@ class _OrdershopState extends State<Ordershop> {
         // แปลงจำนวนเป็น String
         data['จำนวน'].toString(),
       ),
+      trailing: IconButton(
+                onPressed: () {
+                  documents[index].reference.delete();
+                },
+                icon: const Icon(Icons.delete,color: Colors.red,),
+              ),
                       onTap: (){
               Navigator.push(
                             context,

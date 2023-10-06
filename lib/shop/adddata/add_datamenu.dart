@@ -39,7 +39,7 @@ Future<void> sendUserDataToDB() async {
             FirebaseFirestore.instance.collection('Shop');
 
         CollectionReference userMenuSubCollection =
-            userMainCollection.doc(currentUser.email).collection('menu');
+            userMainCollection.doc('tbk1243@gmail.com').collection('menu');
             print('email :$currentUser.email');
 
         await userMenuSubCollection.doc(namemenu.text).set(menuData);

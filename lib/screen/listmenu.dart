@@ -9,7 +9,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 class Listviewmenu extends StatefulWidget {
   final DocumentReference selectorder;
 
-  Listviewmenu({required this.selectorder});
+  const Listviewmenu({super.key, required this.selectorder});
 
   @override
   State<Listviewmenu> createState() => _ListviewmenuState();
@@ -39,6 +39,7 @@ Future<void> saveOrder() async {
     CollectionReference userMainCollection =
         FirebaseFirestore.instance.collection("Shop");
 
+    // ignore: non_constant_identifier_names
     CollectionReference ShopOrderSubCollection =
         userMainCollection.doc('tbk1243@gmail.com').collection('Ordershop');
 
@@ -48,12 +49,13 @@ Future<void> saveOrder() async {
    await ShopOrderSubCollection.doc(datamenu['เมนู']).set(datamenu);
 
     // ลบข้อมูลในหน้า Cart
-  Scaffold(body: Text('ไม่มีข้อมูล'),);
+  const Scaffold(body: Text('ไม่มีข้อมูล'),);
   }
 
   // แสดงข้อความแจ้งเตือน
+  // ignore: use_build_context_synchronously
   ScaffoldMessenger.of(context).showSnackBar(
-    SnackBar(
+    const SnackBar(
       content: Text('ข้อมูลถูกบันทึกสำเร็จ'),
     ),
   );
@@ -113,18 +115,18 @@ Future<void> saveOrder() async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("รายละเอียด"),
+        title: const Text("รายละเอียด"),
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: widget.selectorder.snapshots(),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(
+            return const Center(
               child: CircularProgressIndicator(),
             );
           }
           if (snapshot.hasError) {
-            return Center(
+            return const Center(
               child: Text('Error fetching data'),
             );
           }
@@ -135,16 +137,16 @@ Future<void> saveOrder() async {
               children: [
                 Row(mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    Text('เมนู: ${data['เมนู']}',style: TextStyle(fontSize: 25),),
+                    Text('เมนู: ${data['เมนู']}',style: const TextStyle(fontSize: 25),),
                     
                   ],
                 ),
-                Text('รายละเอียด: ${data['รายละเอียด']}',style: TextStyle(fontSize: 20),),
-                 Text('อื่นๆ: ${data['อื่นๆ']}',style: TextStyle(fontSize: 20),),
-                Text('ไข่: ${data['ไข่']}',style: TextStyle(fontSize: 20)),
-                Text('เพิ่มเติม: ${data['เพิ่มเติม']}',style: TextStyle(fontSize: 20)),
-                Text('จำนวน: ${data['จำนวน']}',style: TextStyle(fontSize: 20)),
-                Text('ราคา: ${data['รวม']}',style: TextStyle(fontSize: 20)),
+                Text('รายละเอียด: ${data['รายละเอียด']}',style: const TextStyle(fontSize: 20),),
+                 Text('อื่นๆ: ${data['อื่นๆ']}',style: const TextStyle(fontSize: 20),),
+                Text('ไข่: ${data['ไข่']}',style: const TextStyle(fontSize: 20)),
+                Text('เพิ่มเติม: ${data['เพิ่มเติม']}',style: const TextStyle(fontSize: 20)),
+                Text('จำนวน: ${data['จำนวน']}',style: const TextStyle(fontSize: 20)),
+                Text('ราคา: ${data['รวม']}',style: const TextStyle(fontSize: 20)),
                 // ตรงนี้คุณสามารถแสดงข้อมูลเพิ่มเติมจากเมนูที่ผู้ใช้คลิกได้ตามความต้องการ
                 
                                     
@@ -152,7 +154,7 @@ Future<void> saveOrder() async {
               
             );
           }
-          return Text("ไม่มีข้อมูล");
+          return const Text("ไม่มีข้อมูล");
         },
       ),
       // ปุ่มข้อความ 2 อัน
@@ -164,7 +166,7 @@ Future<void> saveOrder() async {
             Container(
               color: Colors.red,
               child: TextButton(
-                child: Text('ลบ',style: TextStyle(fontSize: 30,color: Colors.white),),
+                child: const Text('ลบ',style: TextStyle(fontSize: 30,color: Colors.white),),
                 onPressed: () {
                   
                 },
@@ -180,11 +182,11 @@ Future<void> saveOrder() async {
             Container(
               color: Colors.green,
               child: TextButton(
-                child: Text('สั่งซื้อ',style: TextStyle(fontSize: 30,color: Colors.white)),
+                child: const Text('สั่งซื้อ',style: TextStyle(fontSize: 30,color: Colors.white)),
                 onPressed: () {
                 saveOrder();
                 // ลบข้อมูลในหน้า Cart
-               Scaffold(body: Text('ไม่มีข้อมูล'),);
+               const Scaffold(body: Text('ไม่มีข้อมูล'),);
                 // กลับสู่หน้าหลัก
                 Navigator.pop(context);
                 },

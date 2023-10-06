@@ -1,5 +1,6 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
+
 import 'package:flutter/material.dart';
 
 class Listmenushop extends StatefulWidget {
@@ -12,7 +13,94 @@ class Listmenushop extends StatefulWidget {
 }
 
 class _ListmenushopState extends State<Listmenushop> {
-  
+ CollectionReference collectionStatus =
+      FirebaseFirestore.instance.collection("users").doc('testerappfood.user@gmail.com').collection("status");
+
+
+
+
+ void sendstatusone() async {
+  String statusone = "กำลังทำ";
+  final data = await widget.selectmenu.get();
+  Map<String, dynamic> datamenu = {
+    
+    'เมนู': data['เมนู'],
+    'รายละเอียด': data['รายละเอียด'],
+    'อื่นๆ': data['อื่นๆ'],
+    // ignore: equal_keys_in_map
+    'เพิ่มเติม': data['เพิ่มเติม'],
+    'ไข่': data['ไข่'],
+    'ราคา': data['ราคา'], // Format the price to 2 decimal places
+    'จำนวน': data['จำนวน'],
+    'รวม': data['รวม'],
+    'สถานะ': statusone,
+  };
+
+  // Add the document to the collection
+  await collectionStatus.doc(statusone).set(datamenu);
+  // เพิ่ม SnackBar
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text('ข้อมูลถูกบันทึกสำเร็จ'),
+    ),
+  );
+}
+
+
+ void sendstatustwo() async {
+  String statustwo = "ทำเสร็จแล้ว";
+  final data = await widget.selectmenu.get();
+  Map<String, dynamic> datamenu = {
+    
+    'เมนู': data['เมนู'],
+    'รายละเอียด': data['รายละเอียด'],
+    'อื่นๆ': data['อื่นๆ'],
+    // ignore: equal_keys_in_map
+    'เพิ่มเติม': data['เพิ่มเติม'],
+    'ไข่': data['ไข่'],
+    'ราคา': data['ราคา'], // Format the price to 2 decimal places
+    'จำนวน': data['จำนวน'],
+    'รวม': data['รวม'],
+    'สถานะ': statustwo,
+  };
+
+  // Add the document to the collection
+  await collectionStatus.doc(statustwo).set(datamenu);
+  // เพิ่ม SnackBar
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text('ข้อมูลถูกบันทึกสำเร็จ'),
+    ),
+  );
+}
+
+
+void sendstatusthree() async {
+  String statusthree = "รับออเดอร์แล้ว";
+  final data = await widget.selectmenu.get();
+  Map<String, dynamic> datamenu = {
+    
+    'เมนู': data['เมนู'],
+    'รายละเอียด': data['รายละเอียด'],
+    'อื่นๆ': data['อื่นๆ'],
+    // ignore: equal_keys_in_map
+    'เพิ่มเติม': data['เพิ่มเติม'],
+    'ไข่': data['ไข่'],
+    'ราคา': data['ราคา'], // Format the price to 2 decimal places
+    'จำนวน': data['จำนวน'],
+    'รวม': data['รวม'],
+    'สถานะ': statusthree,
+  };
+
+  // Add the document to the collection
+  await collectionStatus.doc(statusthree).set(datamenu);
+  // เพิ่ม SnackBar
+  ScaffoldMessenger.of(context).showSnackBar(
+    const SnackBar(
+      content: Text('ข้อมูลถูกบันทึกสำเร็จ'),
+    ),
+  );
+}
 
 
   
@@ -69,11 +157,11 @@ class _ListmenushopState extends State<Listmenushop> {
                         backgroundColor: Color.fromARGB(255, 241, 87, 76)
                       ),
                        child: Text('กำลังทำ',style: TextStyle(fontSize: 20,color: Colors.black),),
-                       onPressed: (){
-                      
-                 
-                  
-                       }
+                       // เพิ่มโค้ดเพื่อเก็บข้อมูลลงใน firebase เมื่อกดปุ่ม
+onPressed: () {
+ sendstatusone();
+},
+
                        ),
                       
                     ),
@@ -83,7 +171,7 @@ class _ListmenushopState extends State<Listmenushop> {
                         backgroundColor: Colors.yellow.shade300
                       ),child: Text('ทำเสร็จแล้ว',style: TextStyle(fontSize: 20,color: Colors.black),),
                       onPressed: (){
-                       
+                       sendstatustwo();
                         
                       }
                       ),
@@ -96,7 +184,7 @@ class _ListmenushopState extends State<Listmenushop> {
                       child: 
                       Text('รับออเดอร์เรียบร้อย',style: TextStyle(fontSize: 20,color: Colors.black),),
                       onPressed: (){
-                        
+                       sendstatusthree() ;
                       }
                       ),
                     ),

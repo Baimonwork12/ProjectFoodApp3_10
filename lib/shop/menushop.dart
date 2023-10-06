@@ -27,14 +27,15 @@ class _MenuShopState extends State<MenuShop> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('เมนูร้านค้า'),
+          title: const Text('เมนูร้านค้า'),
           actions: <Widget>[
             IconButton(
                 onPressed: () {
                   Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => Adddatamenu()));
+                      MaterialPageRoute(builder: (context) => const Adddatamenu()));
                 },
-                icon: Icon(Icons.note_add))
+                icon: const Icon(Icons.note_add)),
+                
           ],
         ),
         body: StreamBuilder<QuerySnapshot>(
@@ -70,14 +71,41 @@ class _MenuShopState extends State<MenuShop> {
                   final data = documents[index];
                   return ListTile(
                       title: Text(data['ชื่อเมนู']),
-                      trailing: IconButton(
-  onPressed: () {
-    // เรียกใช้ฟังก์ชัน editData()
-    editData(documents[index].reference, data['แก้ไข']);
-    // Navigator.push(context,MaterialPageRoute(builder: (context)=> EditDataPopup(documentReference: documentReference, data: data)))
-  },
-  icon: Icon(Icons.edit, size: 20, color: Colors.black),
+                      // เพิ่ม icon ที่สอง
+trailing: Stack(
+  children: [
+    IconButton(
+      onPressed: () {
+        // ฟังก์ชันสำหรับ icon แรก
+        editData(documents[index].reference, data['แก้ไข']);
+        // Navigator.push(context,
+        //               MaterialPageRoute(builder: (context) => editData()));
+      },
+      
+                  
+                
+      icon: const Padding(
+        padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
+        child: Icon(Icons.edit, size: 20, color: Colors.black),
+      ),
+
+    ),
+    // เปลี่ยน icon ที่สองเป็น icon สำหรับลบ
+    IconButton(
+      onPressed: () {
+        // ฟังก์ชันสำหรับ icon ที่สอง
+        documents[index].reference.delete();
+      },
+      icon: const Padding(
+        padding: EdgeInsets.fromLTRB(30, 0 , 0, 0),
+        child: Icon(Icons.delete, size: 20, color: Colors.red),
+      ),
+    ),
+  ],
 ),
+
+
+
 
                       // subtitle: Text(data['ราคา']),
                       onTap: () {
@@ -92,11 +120,11 @@ class _MenuShopState extends State<MenuShop> {
   }
 }
 class EditDataPopup extends StatefulWidget {
-  final DocumentReference documentReference;
+  final DocumentReference  editdatamenu;
   final Map<String, dynamic> data;
 
   const EditDataPopup({
-    required this.documentReference,
+    required this.editdatamenu,
     required this.data,
   });
 
@@ -107,13 +135,13 @@ class EditDataPopup extends StatefulWidget {
 class _EditDataPopupState extends State<EditDataPopup> {
   void editData(DocumentReference documentReference, Map<String, dynamic> data) async {
   // เรียกใช้ฟังก์ชัน editData()
-  editData(widget.documentReference,{});
+  editData(widget.editdatamenu,{});
 
   // แสดงป๊อปอัปเพื่อแก้ไขข้อมูล
   showDialog(
     context: context,
     builder: (context) => EditDataPopup(
-      documentReference: documentReference,
+      editdatamenu: documentReference,
       data: data,
     ),
   );
@@ -159,7 +187,7 @@ class _EditDataPopupState extends State<EditDataPopup> {
         TextButton(
           onPressed: () {
             // บันทึกข้อมูลใหม่ไปยัง Firestore
-            editData(widget.documentReference, {
+            editData(widget.editdatamenu, {
               'ชื่อเมนู': _nameController.text,
               'ราคา': int.parse(_priceController.text),
             });

@@ -81,7 +81,7 @@ Future<void> sendUserDataToDB(List<DocumentSnapshot> cartDocuments) async {
                 onPressed: () {
                   documents[index].reference.delete();
                 },
-                icon: Icon(Icons.delete),
+                icon: const Icon(Icons.delete,color: Colors.red,),
               ),
               onTap: () {
                 Navigator.push(
