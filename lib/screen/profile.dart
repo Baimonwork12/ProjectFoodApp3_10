@@ -1,4 +1,3 @@
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/screen/login.dart';
@@ -13,6 +12,7 @@ class Profile extends StatefulWidget {
 
 class _ProfileState extends State<Profile> {
   
+ 
   @override
   Widget build(BuildContext context) {
     final GoogleSignIn _googleSignIn = GoogleSignIn();
@@ -31,63 +31,53 @@ class _ProfileState extends State<Profile> {
     //       signOutGoogle();
     //     }, child: Text('log out')),
     //   ),
-    body:  StreamBuilder<QuerySnapshot>(
-  stream: FirebaseFirestore.instance
-    .collection('users')
-    .doc('mmmo4451@gmal.com')
-    .collection('')
-    .snapshots(),
+   body:
+    StreamBuilder<QuerySnapshot>(
+  stream: FirebaseFirestore.instance.collection('users').snapshots(),
   builder: (context, snapshot) {
-    if (snapshot.connectionState == ConnectionState.waiting) {
-      return const Center(
-        child: CircularProgressIndicator(),
-      );
+    if (!snapshot.hasData) {
+      return const CircularProgressIndicator(); // แสดงตัวเครื่องโหลดข้อมูล
     }
-    if (snapshot.hasError) {
-      return const Center(
-        child: Text('Error fetching data'),
-      );
-    }
-    if (snapshot.hasData) {
-      final documents = snapshot.data!.docs;
-      if (documents.isEmpty) {
-        return const Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [Text('ยังไม่มีข้อมูล')],
-          ),
-        );
-      }
-      return ListView.builder(
-        itemCount: documents.length,
-        itemBuilder: (context, index) {
-          final data = documents[index];
-          // เพิ่มข้อมูล 'email', 'displayName', 'photoURL' จาก User
-          // final email = data['email'];
-          // final displayName = data['displayName'];
-          // final photoURL = data['photoURL'];
+    final List<DocumentSnapshot> documents = snapshot.data!.docs;
+    return ListView.builder(
+      itemCount: documents.length,
+      itemBuilder: (context, index) {
+        final data = documents[index].data() as Map<String, dynamic>;
+    
 
-          return ListTile(
-            
-           
-            trailing: Column(
-              crossAxisAlignment: CrossAxisAlignment.end,
-              children: [
-                Text(data['email']), // แสดง Email
-                Text(data['displayName']), // แสดง Display Name
-                // Image.network(photoURL), // แสดงรูปภาพจาก URL
-              ],
-            ),
-            onTap: () {
-              // โค้ดเมื่อตัวเมนูถูกแตะ
-            },
-          );
-        },
-      );
-    }
-    return Text("ไม่มีข้อมูล");
+
+
+        // เพิ่มข้อมูล 'email', 'displayName' จาก User
+        final email = data['email'];
+        final displayName = data['displayName'];
+        final photoURL = data ['photoURL'];
+        return ListTile(
+       
+          trailing: Row(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(email),
+              ), // แสดง Email
+              Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Text(displayName),
+              ), // แสดง Display Name
+              Image.network(photoURL)
+            ],
+          ),
+          onTap: () {
+            // โค้ดเมื่อตัวเมนูถูกแตะ
+          },
+        );
+      },
+    );
   },
 )
+
+
+
 
    
     );
