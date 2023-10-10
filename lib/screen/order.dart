@@ -4,10 +4,6 @@ import 'package:flutter/material.dart';
 import 'package:food_app/screen/listorder.dart';
 
 
-
-
-
-
 // ignore: camel_case_types
 class order extends StatefulWidget {
   const order({super.key});
@@ -24,7 +20,7 @@ class _orderState extends State<order> {
   Widget build(BuildContext context) {
    
     return Scaffold(
-      appBar: AppBar(title: Text('รายการสั่ง')),
+      appBar: AppBar(title: Text('รายการสั่ง'),backgroundColor: Colors.blue.shade300),
        body:StreamBuilder<QuerySnapshot>(
         stream: FirebaseFirestore.instance
             .collection('users')
@@ -59,7 +55,7 @@ class _orderState extends State<order> {
                     final data =
                         documents[index];
                     return ListTile(
-                      title: Text(data['สถานะ']),
+                      title: Text(data['สถานะ'], style: TextStyle(fontSize: 20)),
                      
                       onTap: (){
                Navigator.push(

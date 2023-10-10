@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 
 import 'package:food_app/bottom_nav.dart';
 import 'package:food_app/shop/adddata/add_datashop.dart';
+import 'package:food_app/shop/bottom_shop.dart';
 
 
 
@@ -69,21 +70,64 @@ class _MyWidgetState extends State<MyWidget> {
   }
   // ฟังก์ชั่นSig
  
+ CollectionReference ShopCollection =
+      FirebaseFirestore.instance.collection("Shop");
+Future<void> signInWithGoogleshop() async {
+    try {
+      final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final GoogleSignInAuthentication? googleAuth =
+          await googleUser?.authentication;
 
+      final credential = GoogleAuthProvider.credential(
+        accessToken: googleAuth?.accessToken,
+        idToken: googleAuth?.idToken,
+      );
 
-  Future<UserCredential?> signInWithGoogleshop() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+      final UserCredential userCredential =
+          await FirebaseAuth.instance.signInWithCredential(credential);
 
-    if (googleUser == null) {
-      // ไม่ได้ล็อกอินด้วย Google
-      return null;
+      if (userCredential.user != null) {
+        final docSnapshot =
+            await ShopCollection.doc(userCredential.user!.email).get();
+
+        if (docSnapshot.exists) {
+          // Document already exists, navigate to MyNavigator directly
+
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const  MyNavigator1(),
+            ),
+          );
+        } else {
+          // Document doesn't exist, navigate to InputDataForUser
+          Navigator.pushReplacement(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const Adddatashop(),
+            ),
+          );
+        }
+      }
+    } catch (e) {
+      // ignore: avoid_print
+      print('Error signing in: $e');
     }
- 
-Navigator.push(context, MaterialPageRoute(builder: (context)=> const Adddatashop())); 
- 
-return null;
-    
   }
+
+//   Future<UserCredential?> signInWithGoogleshop() async {
+//     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+//     if (googleUser == null) {
+//       // ไม่ได้ล็อกอินด้วย Google
+//       return null;
+//     }
+ 
+// Navigator.push(context, MaterialPageRoute(builder: (context)=> const Adddatashop())); 
+ 
+// return null;
+    
+//   }
 
 
 // ฟังก์ชันตรวจสอบว่ามีบัญชีผู้ใช้ในฐานข้อมูลหรือไม่

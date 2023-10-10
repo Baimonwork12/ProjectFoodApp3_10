@@ -27,7 +27,7 @@ class _MenuShopState extends State<MenuShop> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('เมนูร้านค้า'),
+          title: const Text('เมนูร้านค้า'),backgroundColor: Colors.deepPurple.shade300,
           actions: <Widget>[
             IconButton(
                 onPressed: () {
@@ -70,84 +70,82 @@ class _MenuShopState extends State<MenuShop> {
        itemBuilder: (context, index) {
                   final data = documents[index];
                   return ListTile(
-                      title: Text(data['ชื่อเมนู']),
+                      title: Text(data['ชื่อเมนู'],style: TextStyle(fontSize: 20)),
                       // เพิ่ม icon ที่สอง
 trailing: Stack(
   children: [
-    IconButton(
-      onPressed: () {
+//     IconButton(
+//       onPressed: () {
  
-  documents[index].reference.update({
-    'ชื่อเมนู':  data['ชื่อเมนู'],
-    'ราคา': data['ราคา'].toString(),
-  });
-  //     Navigator.push(context,
-  //                     MaterialPageRoute(builder: (context) =>
-  //                     EditDataPopup(editdatamenu: documents[index].reference, data: {},)));
-},
-
-//       onPressed: () {
-//   // ฟังก์ชันสำหรับ icon ที่สอง
-//   // documents[index].reference.delete();
-//   // เปลี่ยนเป็น
 //   documents[index].reference.update({
-//    'ชื่อเมนู': data['ชื่อเมนู'],
-//   });
-// },
-
-//       onPressed: () {
-//   // ฟังก์ชันสำหรับ icon ที่สอง
-//   // documents[index].reference.delete();
-//   // เปลี่ยนเป็น
-//   documents[index].reference.set({
-//     'ชื่อเมนู': data['ชื่อเมนู'],
+//     'ชื่อเมนู':  data['ชื่อเมนู'],
 //     'ราคา': data['ราคา'].toString(),
 //   });
+//   //     Navigator.push(context,
+//   //                     MaterialPageRoute(builder: (context) =>
+//   //                     EditDataPopup(editdatamenu: documents[index].reference, data: {},)));
 // },
 
-//       onPressed: () {
-//         // ฟังก์ชันสำหรับ icon แรก
-//         // editData(documents[index].reference, data['แก้ไข']);
-//        // ฟังก์ชันสำหรับ icon แรก
-// editData(documents[index].reference, {
-//  'ชื่อเมนู': data['ชื่อเมนู'],
-//                       'ราคา': data['ราคา'].toString(),
-// });
+// //       onPressed: () {
+// //   // ฟังก์ชันสำหรับ icon ที่สอง
+// //   // documents[index].reference.delete();
+// //   // เปลี่ยนเป็น
+// //   documents[index].reference.update({
+// //    'ชื่อเมนู': data['ชื่อเมนู'],
+// //   });
+// // },
 
-//         Navigator.push(context,
-//                       MaterialPageRoute(builder: (context) =>
-//                       EditDataPopup(editdatamenu: documents[index].reference, data: {},)));
-//       },
+// //       onPressed: () {
+// //   // ฟังก์ชันสำหรับ icon ที่สอง
+// //   // documents[index].reference.delete();
+// //   // เปลี่ยนเป็น
+// //   documents[index].reference.set({
+// //     'ชื่อเมนู': data['ชื่อเมนู'],
+// //     'ราคา': data['ราคา'].toString(),
+// //   });
+// // },
+
+// //       onPressed: () {
+// //         // ฟังก์ชันสำหรับ icon แรก
+// //         // editData(documents[index].reference, data['แก้ไข']);
+// //        // ฟังก์ชันสำหรับ icon แรก
+// // editData(documents[index].reference, {
+// //  'ชื่อเมนู': data['ชื่อเมนู'],
+// //                       'ราคา': data['ราคา'].toString(),
+// // });
+
+// //         Navigator.push(context,
+// //                       MaterialPageRoute(builder: (context) =>
+// //                       EditDataPopup(editdatamenu: documents[index].reference, data: {},)));
+// //       },
       
                   
                 
-      icon: const Padding(
-        padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
-        child: Icon(Icons.edit, size: 20, color: Colors.black),
-      ),
-
-    ),
-    // เปลี่ยน icon ที่สองเป็น icon สำหรับลบ
-//     IconButton(
-//       onPressed: () {
-//   // ฟังก์ชันสำหรับ icon ที่สอง
-//   // documents[index].reference.delete();
-//   // เปลี่ยนเป็น
-//   documents[index].reference.update({
-//      'ชื่อเมนู': data['ชื่อเมนู'],
-//     'ราคา': data['ราคา'].toString(),
-//   });
-// },
-
-//       // onPressed: () {
-//       //   // ฟังก์ชันสำหรับ icon ที่สอง
-//       //   documents[index].reference.delete();
-//       // },
 //       icon: const Padding(
-//         padding: EdgeInsets.fromLTRB(30, 0 , 0, 0),
-//         child: Icon(Icons.delete, size: 20, color: Colors.red),
+//         padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
+//         child: Icon(Icons.edit, size: 20, color: Colors.black),
 //       ),
+
 //     ),
+    // เปลี่ยน icon ที่สองเป็น icon สำหรับลบ
+    IconButton(
+      onPressed: () {
+  // ฟังก์ชันสำหรับ icon ที่สอง
+  // documents[index].reference.delete();
+  // เปลี่ยนเป็น
+        documents[index].reference.delete();
+
+},
+
+      // onPressed: () {
+      //   // ฟังก์ชันสำหรับ icon ที่สอง
+      //   documents[index].reference.delete();
+      // },
+      icon: const Padding(
+        padding: EdgeInsets.fromLTRB(30, 0 , 0, 0),
+        child: Icon(Icons.delete, size: 30, color: Colors.red),
+      ),
+    ),
   ],
 ),
 

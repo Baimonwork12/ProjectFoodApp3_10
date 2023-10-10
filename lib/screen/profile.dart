@@ -4,82 +4,125 @@ import 'package:food_app/screen/login.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Profile extends StatefulWidget {
-  const Profile({super.key});
+  final DocumentReference dtprofile;
+  const Profile({Key? key, required this.dtprofile}) : super(key: key);
 
   @override
   State<Profile> createState() => _ProfileState();
 }
 
 class _ProfileState extends State<Profile> {
-  
- 
+  late Stream<DocumentSnapshot> ProfileCollection;
+
   @override
-  Widget build(BuildContext context) {
-    final GoogleSignIn _googleSignIn = GoogleSignIn();
+  void initState() {
+    super.initState();
+    ProfileCollection = widget.dtprofile.snapshots();
+  }
+
+  final GoogleSignIn _googleSignIn = GoogleSignIn();
   void signOutGoogle() async {
     await _googleSignIn.signOut();
     // ignore: avoid_print
-    print("User Sign Out"); Navigator.push(context, MaterialPageRoute(builder: (context)=> MyWidget()));
+    print("User Sign Out");
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => MyWidget()));
   }
-    
+
+  @override
+  Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('โปรไฟล์'),
-    ),
-    // body:  Center(
-    //     child: OutlinedButton(onPressed: (){
-    //       signOutGoogle();
-    //     }, child: Text('log out')),
-    //   ),
-   body:
-    StreamBuilder<QuerySnapshot>(
-  stream: FirebaseFirestore.instance.collection('users').snapshots(),
-  builder: (context, snapshot) {
-    if (!snapshot.hasData) {
-      return const CircularProgressIndicator(); // แสดงตัวเครื่องโหลดข้อมูล
-    }
-    final List<DocumentSnapshot> documents = snapshot.data!.docs;
-    return ListView.builder(
-      itemCount: documents.length,
-      itemBuilder: (context, index) {
-        final data = documents[index].data() as Map<String, dynamic>;
-    
+        title: const Text("โปรไฟล์"),backgroundColor: Colors.blue.shade300
+      ),
+      body: StreamBuilder<DocumentSnapshot>(
+        stream: widget.dtprofile.snapshots(),
+        builder: (context, snapshot) {
+          if (snapshot.connectionState == ConnectionState.waiting) {
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          if (snapshot.hasError) {
+            return const Center(
+              child: Text('Error fetching data'),
+            );
+          }
+          if (snapshot.hasData) {
+            final data = snapshot.data!.data() as Map<String, dynamic>;
 
+            final email = data['email'];
+            final displayName = data['displayName'];
+            final photoURL = data['photoURL'];
 
+            return Column(
+              children: [
+               Padding(
+  padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+  child: ClipOval(
+    child: Image.network(photoURL),
+  ),
+),
 
-        // เพิ่มข้อมูล 'email', 'displayName' จาก User
-        final email = data['email'];
-        final displayName = data['displayName'];
-        final photoURL = data ['photoURL'];
-        return ListTile(
-       
-          trailing: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(email),
-              ), // แสดง Email
-              Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Text(displayName),
-              ), // แสดง Display Name
-              Image.network(photoURL)
-            ],
-          ),
-          onTap: () {
-            // โค้ดเมื่อตัวเมนูถูกแตะ
-          },
-        );
-      },
-    );
-  },
-)
-
-
-
-
-   
+                SizedBox(
+                  height: 20,
+                ),
+                // แสดง Email
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Row(
+                    children: [
+                      Text(
+                      'ชื่อ:',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                       SizedBox(width: 10),
+                      Text(
+                        displayName,
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: 20,
+                ),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
+                  child: Row(
+                    children: [
+                      Text(
+                      'อีเมลล์:',
+                        style: TextStyle(fontSize: 20),
+                      ),
+                       SizedBox(width: 10),
+                      Text(
+                        email,
+                        style: TextStyle(fontSize: 20),
+                      ),
+                    ],
+                  ),
+                ),
+                // แสดง Display Name
+                SizedBox(height: 380), // add some space above the logout button
+                Align(
+                  alignment: Alignment.bottomCenter,
+                  child: OutlinedButton(
+                    onPressed: () {
+                      signOutGoogle();
+                    },
+                    child: Text(
+                      'log out',
+                      style: TextStyle(fontSize: 25),
+                    ),
+                  ),
+                ),
+              ],
+            );
+          }
+          return const Text("ไม่มีข้อมูล");
+        },
+      ),
     );
   }
 }

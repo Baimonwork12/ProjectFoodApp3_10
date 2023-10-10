@@ -29,14 +29,20 @@ class _AdddatashopState extends State<Adddatashop> {
         'เบอร์โทรศัพท์': Phone.text,
         'ที่อยู่': Address.text,
         'ชื่อแม่ค้า': currentUser.displayName,
-      });
+        'email': currentUser.email,
+      'displayName': currentUser.displayName,
+      'photoURL': currentUser.photoURL,
+      }).then((value) => Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => MyNavigator1())));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('เพิ่มข้อมูลร้านค้า')),
+        appBar: AppBar(title: Text('เพิ่มข้อมูลร้านค้า'),backgroundColor: Colors.deepPurple.shade300),
         body: Form(
             key: formKey,
             child: Column(
@@ -55,7 +61,7 @@ class _AdddatashopState extends State<Adddatashop> {
                     },
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 TextFormField(
@@ -70,7 +76,7 @@ class _AdddatashopState extends State<Adddatashop> {
                     return null;
                   },
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 10,
                 ),
                 TextFormField(
@@ -87,10 +93,7 @@ class _AdddatashopState extends State<Adddatashop> {
                 OutlinedButton(
                     onPressed: () {
                       sendUserDataToDB();
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                              builder: (context) => MyNavigator1()));
+                      
                     },
                     child: const Text('บันทึก'))
               ],

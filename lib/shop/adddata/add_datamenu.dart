@@ -49,7 +49,7 @@ Future<void> sendUserDataToDB() async {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('เพิ่มเมนูร้านค้า')),
+    return Scaffold(appBar: AppBar(title: Text('เพิ่มเมนูร้านค้า'),backgroundColor: Colors.deepPurple.shade300),
       body: Form(
         key: formKey,
         child: Column(

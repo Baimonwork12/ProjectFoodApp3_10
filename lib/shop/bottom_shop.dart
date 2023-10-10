@@ -1,3 +1,6 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+
 import 'package:flutter/material.dart';
 import 'package:food_app/shop/menushop.dart';
 import 'package:food_app/shop/ordershop.dart';
@@ -13,21 +16,38 @@ class MyNavigator1 extends StatefulWidget {
 
 class _MyNavigatorState extends State<MyNavigator1> {
   int currentIndex = 0;
+  // late User? _user; // Declare _user as a non-const variable
+final currrenUser = FirebaseAuth.instance.currentUser!;
+  @override
+  void initState() {
+    super.initState();
+    
+    
+  }
+  
   onTap(int index) {
     setState(() {
       currentIndex = index;
     });
   }
+  List<Widget> getScreens() {
+   
+    return [
+      Ordershop(),
+      MenuShop(),
+      Profileshop(dtprofileshop: FirebaseFirestore.instance.collection('Shop').doc(currrenUser.email))
+    ];
+  }
 
-  List<Widget> screens = const [Ordershop(),MenuShop(),Profileshop()];
   @override
   Widget build(BuildContext context) {
+    final screens = getScreens(); 
     return Scaffold(
         body: Center(
-          child: screens.elementAt(currentIndex),
-        ),
+        child: screens.elementAt(currentIndex),
+      ),
         bottomNavigationBar: BottomNavigationBar(
-          backgroundColor: Colors.deepPurple,
+          backgroundColor: Colors.deepPurple.shade300,
           selectedItemColor: Colors.black, // สีของไอคอนแถบที่ถูกเลือก
           unselectedItemColor: Colors.grey, // สีของไอคอนแถบที่ไม่ถูกเลือก
           onTap: onTap,

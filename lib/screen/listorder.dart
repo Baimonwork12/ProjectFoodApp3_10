@@ -15,7 +15,7 @@ class _ListorderState extends State<Listorder> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("รายละเอียด"),
+        title: const Text("รายละเอียด"),backgroundColor: Colors.blue.shade300
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: widget.selectstatus.snapshots(),

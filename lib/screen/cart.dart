@@ -38,7 +38,7 @@ Future<void> sendUserDataToDB(List<DocumentSnapshot> cartDocuments) async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("ตะกร้า"),
+        title: const Text("ตะกร้า"),backgroundColor: Colors.blue.shade300
       ),
       body: Stack(
         children: [
@@ -75,8 +75,8 @@ Future<void> sendUserDataToDB(List<DocumentSnapshot> cartDocuments) async {
           final data = documents[index];
           if (data['เมนู'] != null) {
             return ListTile(
-              title: Text(data['เมนู']),
-              subtitle: Text(data['จำนวน'].toString()),
+              title: Text(data['เมนู'],style: TextStyle(fontSize: 20)),
+              subtitle: Text(data['จำนวน'].toString(),style: TextStyle(fontSize: 20)),
               trailing: IconButton(
                 onPressed: () {
                   documents[index].reference.delete();

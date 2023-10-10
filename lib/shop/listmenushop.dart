@@ -116,7 +116,7 @@ void sendstatusthree() async {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("รายละเอียด"),
+        title: Text("รายละเอียด"),backgroundColor: Colors.deepPurple.shade300
       ),
       body: StreamBuilder<DocumentSnapshot>(
         stream: widget.selectmenu.snapshots(),

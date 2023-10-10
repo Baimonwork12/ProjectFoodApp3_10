@@ -23,7 +23,7 @@ class _dttamsangState extends State<dttamsang> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('เมนู'),
+          title: const Text('เมนู'),backgroundColor: Colors.blue.shade300
         ),
         body: StreamBuilder(
             stream: menuCollection,
