@@ -31,16 +31,16 @@ class _HomepageState extends State<Homepage> {
               final data = documents[index].data() as Map<String, dynamic>;
               return ListTile(
                 title: Text(
-                  data['ชื่อร้านค้า'], style: TextStyle(fontSize: 20)
+                  data['ชื่อร้านค้า'], style: const TextStyle(fontSize: 20)
                 ),
                 subtitle: Row(mainAxisAlignment: MainAxisAlignment.start,
                   children: [
-                    Text(
+                    const Text(
                       'เบอร์โทรศัพท์: ',
                       style: TextStyle(fontSize: 20),
                     ),
                     Text(
-                      data['เบอร์โทรศัพท์'],style: TextStyle(fontSize: 20),
+                      data['เบอร์โทรศัพท์'],style: const TextStyle(fontSize: 20),
                     ),
                     
                   ],

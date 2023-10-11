@@ -15,7 +15,7 @@ class _orderState extends State<order> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: Text('รายการสั่ง'),
+          title: const Text('รายการสั่ง'),
           backgroundColor: Colors.blue.shade300,
         ),
         body: StreamBuilder<QuerySnapshot>(
@@ -51,7 +51,7 @@ class _orderState extends State<order> {
                   final data = documents[index];
                   return ListTile(
                       title:
-                          Text(data['สถานะ'], style: TextStyle(fontSize: 20)),
+                          Text(data['สถานะ'], style: const TextStyle(fontSize: 20)),
                       onTap: () {
                         Navigator.push(
                           context,
@@ -66,7 +66,7 @@ class _orderState extends State<order> {
                 },
               );
             }
-            return Text("ไม่มีข้อมูล");
+            return const Text("ไม่มีข้อมูล");
           },
         ));
   }

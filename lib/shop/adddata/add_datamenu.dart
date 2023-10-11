@@ -49,7 +49,7 @@ Future<void> sendUserDataToDB() async {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: Text('เพิ่มเมนูร้านค้า'),backgroundColor: Colors.deepPurple.shade300),
+    return Scaffold(appBar: AppBar(title: const Text('เพิ่มเมนูร้านค้า'),backgroundColor: Colors.deepPurple.shade300),
       body: Form(
         key: formKey,
         child: Column(
@@ -66,7 +66,7 @@ Future<void> sendUserDataToDB() async {
                 return ' กรุณากรอกชื่อเมนู';
               }return null;
             },),
-          ),SizedBox(height: 10,),
+          ),const SizedBox(height: 10,),
           TextFormField(keyboardType: TextInputType.phone,
             controller: price,
             decoration: const InputDecoration(
@@ -79,11 +79,11 @@ Future<void> sendUserDataToDB() async {
               return ' กรุณากรอกราคา';
             }return null;
           },
-          ),SizedBox(height: 10,),
+          ),const SizedBox(height: 10,),
           
           OutlinedButton(onPressed: (){
              sendUserDataToDB();
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>(MyNavigator1())));
+            Navigator.push(context, MaterialPageRoute(builder: (context)=>(const MyNavigator1())));
           }, child: const Text('บันทึก'))
         ],
       ))

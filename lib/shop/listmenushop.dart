@@ -114,6 +114,7 @@ class _ListmenushopState extends State<Listmenushop> {
     // Add the document to the collection
     await collectionStatus.doc(statusthree).set(datamenu);
     // เพิ่ม SnackBar
+    // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('ข้อมูลถูกบันทึกสำเร็จ'),

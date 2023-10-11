@@ -12,6 +12,7 @@ class Profile extends StatefulWidget {
 }
 
 class _ProfileState extends State<Profile> {
+  // ignore: non_constant_identifier_names
   late Stream<DocumentSnapshot> ProfileCollection;
 
   @override
@@ -26,7 +27,7 @@ class _ProfileState extends State<Profile> {
     // ignore: avoid_print
     print("User Sign Out");
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => MyWidget()));
+        context, MaterialPageRoute(builder: (context) => const MyWidget()));
   }
 
   @override
@@ -63,7 +64,7 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
 
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 // แสดง Email
@@ -71,46 +72,46 @@ class _ProfileState extends State<Profile> {
                   padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                   child: Row(
                     children: [
-                      Text(
+                      const Text(
                         'ชื่อ:',
                         style: TextStyle(fontSize: 20),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Text(
                         displayName,
-                        style: TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 20),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(
+                const SizedBox(
                   height: 20,
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(10, 0, 0, 0),
                   child: Row(
                     children: [
-                      Text(
+                      const Text(
                         'อีเมลล์:',
                         style: TextStyle(fontSize: 20),
                       ),
-                      SizedBox(width: 10),
+                      const SizedBox(width: 10),
                       Text(
                         email,
-                        style: TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 20),
                       ),
                     ],
                   ),
                 ),
                 // แสดง Display Name
-                SizedBox(height: 300), // add some space above the logout button
+                const SizedBox(height: 300), // add some space above the logout button
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: OutlinedButton(
                     onPressed: () {
                       signOutGoogle();
                     },
-                    child: Text(
+                    child: const Text(
                       'log out',
                       style: TextStyle(fontSize: 25),
                     ),

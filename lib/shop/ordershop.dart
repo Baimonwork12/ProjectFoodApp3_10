@@ -14,7 +14,7 @@ class _OrdershopState extends State<Ordershop> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('รายการสั่ง'),backgroundColor: Colors.deepPurple.shade300),
+        appBar: AppBar(title: const Text('รายการสั่ง'),backgroundColor: Colors.deepPurple.shade300),
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('Shop')
@@ -47,10 +47,10 @@ class _OrdershopState extends State<Ordershop> {
                 itemBuilder: (context, index) {
                   final data = documents[index];
                   return ListTile(
-                      title: Text(data['เมนู'],style: TextStyle(fontSize: 20),),
+                      title: Text(data['เมนู'],style: const TextStyle(fontSize: 20),),
                       subtitle: Text(
                         // แปลงจำนวนเป็น String
-                        data['จำนวน'].toString(),style: TextStyle(fontSize: 20)
+                        data['จำนวน'].toString(),style: const TextStyle(fontSize: 20)
                       ),
                       trailing: IconButton(
                         onPressed: () {
@@ -74,7 +74,7 @@ class _OrdershopState extends State<Ordershop> {
                 },
               );
             }
-            return Text("ไม่มีข้อมูล");
+            return const Text("ไม่มีข้อมูล");
           },
         ));
   }

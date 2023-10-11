@@ -32,9 +32,9 @@ class _MyNavigatorState extends State<MyNavigator> {
 
   List<Widget> buildScreens() {
     return [
-      order(),
-      Homepage(),
-      cart(),
+      const order(),
+      const Homepage(),
+      const cart(),
       Profile(dtprofile: FirebaseFirestore.instance.collection('users').doc(_user!.email)),
     ];
   }

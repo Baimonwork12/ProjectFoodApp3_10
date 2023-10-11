@@ -11,6 +11,7 @@ class dttamsang extends StatefulWidget {
   State<dttamsang> createState() => _dttamsangState();
 }
 
+// ignore: camel_case_types
 class _dttamsangState extends State<dttamsang> {
   late Stream<QuerySnapshot> menuCollection;
   @override
@@ -65,6 +66,7 @@ class _dttamsangState extends State<dttamsang> {
                   },
                 );
               }
+              // ignore: prefer_const_constructors
               return Text("ไม่มีข้อมูล");
             }));
   }

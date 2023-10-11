@@ -1,3 +1,5 @@
+// ignore_for_file: non_constant_identifier_names
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -35,14 +37,14 @@ class _AdddatashopState extends State<Adddatashop> {
       }).then((value) => Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: (context) => MyNavigator1())));
+                              builder: (context) => const MyNavigator1())));
     }
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: Text('เพิ่มข้อมูลร้านค้า'),backgroundColor: Colors.deepPurple.shade300),
+        appBar: AppBar(title: const Text('เพิ่มข้อมูลร้านค้า'),backgroundColor: Colors.deepPurple.shade300),
         body: Form(
             key: formKey,
             child: Column(

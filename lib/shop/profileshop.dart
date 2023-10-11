@@ -28,6 +28,7 @@ class _ProfileshopState extends State<Profileshop> {
       await googleSignIn.signOut();
       // ignore: avoid_print, use_build_context_synchronously
       print("User Sign Out");
+      // ignore: use_build_context_synchronously
       Navigator.push(
           context, MaterialPageRoute(builder: (context) => const MyWidget()));
     }

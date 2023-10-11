@@ -70,6 +70,7 @@ class _MyWidgetState extends State<MyWidget> {
   }
   // ฟังก์ชั่นSig
  
+ // ignore: non_constant_identifier_names
  CollectionReference ShopCollection =
       FirebaseFirestore.instance.collection("Shop");
 Future<void> signInWithGoogleshop() async {
@@ -153,6 +154,7 @@ Future<bool> checkIfUserExistsInDatabase(String email) async {
 
     try {
       await firestore.collection('Shop').doc(user.displayName).set(userData);
+    // ignore: empty_catches
     } catch (e) {
     }
   }
@@ -179,7 +181,7 @@ Future<bool> checkIfUserExistsInDatabase(String email) async {
             onPressed: () async {
               await signInWithGoogleshop();
             },
-            child:  Text('Log in with Google ร้านค้า',style:TextStyle(fontSize: 20),))
+            child:  const Text('Log in with Google ร้านค้า',style:TextStyle(fontSize: 20),))
          
           ],
         ),

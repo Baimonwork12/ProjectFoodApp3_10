@@ -75,8 +75,8 @@ Future<void> sendUserDataToDB(List<DocumentSnapshot> cartDocuments) async {
           final data = documents[index];
           if (data['เมนู'] != null) {
             return ListTile(
-              title: Text(data['เมนู'],style: TextStyle(fontSize: 20)),
-              subtitle: Text(data['จำนวน'].toString(),style: TextStyle(fontSize: 20)),
+              title: Text(data['เมนู'],style: const TextStyle(fontSize: 20)),
+              subtitle: Text(data['จำนวน'].toString(),style: const TextStyle(fontSize: 20)),
               trailing: IconButton(
                 onPressed: () {
                   documents[index].reference.delete();

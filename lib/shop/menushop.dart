@@ -70,7 +70,7 @@ class _MenuShopState extends State<MenuShop> {
        itemBuilder: (context, index) {
                   final data = documents[index];
                   return ListTile(
-                      title: Text(data['ชื่อเมนู'],style: TextStyle(fontSize: 20)),
+                      title: Text(data['ชื่อเมนู'],style: const TextStyle(fontSize: 20)),
                       // เพิ่ม icon ที่สอง
 trailing: Stack(
   children: [
@@ -159,7 +159,7 @@ trailing: Stack(
                 },
               );
             }
-            return Text("ไม่มีข้อมูล");
+            return const Text("ไม่มีข้อมูล");
           },
         ));
   }
@@ -202,19 +202,19 @@ class _EditDataPopupState extends State<EditDataPopup> {
   @override
   Widget build(BuildContext context) {
     return AlertDialog(
-      title: Text('แก้ไขข้อมูล'),
+      title: const Text('แก้ไขข้อมูล'),
       content: Column(
         mainAxisSize: MainAxisSize.min,
         children: [
           TextField(
             controller: _nameController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'ชื่อเมนู',
             ),
           ),
           TextField(
             controller: _priceController,
-            decoration: InputDecoration(
+            decoration: const InputDecoration(
               labelText: 'ราคา',
             ),
           ),
@@ -225,7 +225,7 @@ class _EditDataPopupState extends State<EditDataPopup> {
           onPressed: () {
             Navigator.of(context).pop();
           },
-          child: Text('ยกเลิก'),
+          child: const Text('ยกเลิก'),
         ),
         TextButton(
           onPressed: () {
@@ -236,7 +236,7 @@ class _EditDataPopupState extends State<EditDataPopup> {
             });
             Navigator.of(context).pop();
           },
-          child: Text('บันทึก'),
+          child: const Text('บันทึก'),
         ),
       ],
     );
