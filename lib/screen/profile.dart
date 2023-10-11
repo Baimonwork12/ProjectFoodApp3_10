@@ -33,8 +33,7 @@ class _ProfileState extends State<Profile> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("โปรไฟล์"),backgroundColor: Colors.blue.shade300
-      ),
+          title: const Text("โปรไฟล์"), backgroundColor: Colors.blue.shade300),
       body: StreamBuilder<DocumentSnapshot>(
         stream: widget.dtprofile.snapshots(),
         builder: (context, snapshot) {
@@ -57,12 +56,12 @@ class _ProfileState extends State<Profile> {
 
             return Column(
               children: [
-               Padding(
-  padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
-  child: ClipOval(
-    child: Image.network(photoURL),
-  ),
-),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+                  child: ClipOval(
+                    child: Image.network(photoURL),
+                  ),
+                ),
 
                 SizedBox(
                   height: 20,
@@ -73,10 +72,10 @@ class _ProfileState extends State<Profile> {
                   child: Row(
                     children: [
                       Text(
-                      'ชื่อ:',
+                        'ชื่อ:',
                         style: TextStyle(fontSize: 20),
                       ),
-                       SizedBox(width: 10),
+                      SizedBox(width: 10),
                       Text(
                         displayName,
                         style: TextStyle(fontSize: 20),
@@ -92,10 +91,10 @@ class _ProfileState extends State<Profile> {
                   child: Row(
                     children: [
                       Text(
-                      'อีเมลล์:',
+                        'อีเมลล์:',
                         style: TextStyle(fontSize: 20),
                       ),
-                       SizedBox(width: 10),
+                      SizedBox(width: 10),
                       Text(
                         email,
                         style: TextStyle(fontSize: 20),
@@ -104,7 +103,7 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 // แสดง Display Name
-                SizedBox(height: 380), // add some space above the logout button
+                SizedBox(height: 300), // add some space above the logout button
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: OutlinedButton(

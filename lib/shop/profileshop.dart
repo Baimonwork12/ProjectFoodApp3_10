@@ -167,7 +167,7 @@ class _ProfileshopState extends State<Profileshop> {
                 ),
                 // แสดง Display Name
                 const SizedBox(
-                    height: 300), // add some space above the logout button
+                    height: 240), // add some space above the logout button
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: OutlinedButton(
