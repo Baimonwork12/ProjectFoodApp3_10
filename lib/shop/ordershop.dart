@@ -14,7 +14,9 @@ class _OrdershopState extends State<Ordershop> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(title: const Text('รายการสั่ง'),backgroundColor: Colors.deepPurple.shade300),
+        appBar: AppBar(
+            title: const Text('รายการสั่ง'),
+            backgroundColor: Colors.deepPurple.shade300),
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('Shop')
@@ -47,11 +49,23 @@ class _OrdershopState extends State<Ordershop> {
                 itemBuilder: (context, index) {
                   final data = documents[index];
                   return ListTile(
-                      title: Text(data['เมนู'],style: const TextStyle(fontSize: 20),),
-                      subtitle: Text(
-                        // แปลงจำนวนเป็น String
-                        data['จำนวน'].toString(),style: const TextStyle(fontSize: 20)
+                      title: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'เลขออเดอร์',
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                          Text(
+                            data['เลขออเดอร์'],
+                            style: const TextStyle(fontSize: 20),
+                          ),
+                        ],
                       ),
+                      subtitle: Text(
+                          // แปลงจำนวนเป็น String
+                          data['วันที่และเวลา'].toString(),
+                          style: const TextStyle(fontSize: 20)),
                       trailing: IconButton(
                         onPressed: () {
                           documents[index].reference.delete();
@@ -61,6 +75,7 @@ class _OrdershopState extends State<Ordershop> {
                           size: 25,
                           color: Colors.red,
                         ),
+                        // เพิ่มข้อความหลังไอคอนลบ
                       ),
                       onTap: () {
                         Navigator.push(

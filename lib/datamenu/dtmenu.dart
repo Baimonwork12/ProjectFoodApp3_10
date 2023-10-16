@@ -14,8 +14,6 @@ class Dtmenu extends StatefulWidget {
 }
 
 class _DtmenumankaiState extends State<Dtmenu> {
-
-
   late Stream<DocumentSnapshot> documentStream;
 
   String? get value => null;
@@ -33,48 +31,48 @@ class _DtmenumankaiState extends State<Dtmenu> {
     DocumentSnapshot snapshot = await widget.selectItem.get();
     Map<String, dynamic>? data = snapshot.data() as Map<String, dynamic>?;
 
-  if (formKey.currentState!.validate()) {
-  // Initialize the base price with the value from data["ราคา"]
-  double basePrice = double.tryParse(data?["ราคา"]) ?? 0.0;
+    if (formKey.currentState!.validate()) {
+      // Initialize the base price with the value from data["ราคา"]
+      double basePrice = double.tryParse(data?["ราคา"]) ?? 0.0;
 
-  // Add the price of 'พิเศษ' if it's selected
-    if (more == 'พิเศษ') {
-    basePrice += 10.0;
-  }
+      // Add the price of 'พิเศษ' if it's selected
+      if (more == 'พิเศษ') {
+        basePrice += 10.0;
+      }
 
-  // Add the price if 'ไข่เจียว' or 'ไข่ดาว' is selected
-  if (egg == 'ไข่เจียว' || egg == 'ไข่ดาว') {
-    basePrice += 10.0;
-  }
-num numTotal = num.parse(total.text);
-double totalPrice = basePrice * numTotal;
-  // Create the datamenumankai map with the updated 'ราคา'
-  Map<String, dynamic> datamenumankai = {
-    'เมนู': data!['ชื่อเมนู'],
-    'รายละเอียด': other,
-    'อื่นๆ': more,
-    // ignore: equal_keys_in_map
-    'เพิ่มเติม': manyother.text,
-    'ไข่': egg,
-    'ราคา': basePrice.toStringAsFixed(2), // Format the price to 2 decimal places
-   'จำนวน': numTotal,
-   'รวม': totalPrice.toStringAsFixed(2),
-  };
+      // Add the price if 'ไข่เจียว' or 'ไข่ดาว' is selected
+      if (egg == 'ไข่เจียว' || egg == 'ไข่ดาว') {
+        basePrice += 10.0;
+      }
+      num numTotal = num.parse(total.text);
+      double totalPrice = basePrice * numTotal;
+      // Create the datamenumankai map with the updated 'ราคา'
+      Map<String, dynamic> datamenumankai = {
+        'เมนู': data!['ชื่อเมนู'],
+        'รายละเอียด': other,
+        'อื่นๆ': more,
+        // ignore: equal_keys_in_map
+        'เพิ่มเติม': manyother.text,
+        'ไข่': egg,
+        'ราคา': basePrice
+            .toStringAsFixed(2), // Format the price to 2 decimal places
+        'จำนวน': numTotal,
+        'รวม': totalPrice.toStringAsFixed(2),
+      };
 
-  // You can use the updated datamenumankai for further processing or send it as needed.
+      // You can use the updated datamenumankai for further processing or send it as needed.
 
-  if (currentUser != null) {
-    CollectionReference userMainCollection =
-        FirebaseFirestore.instance.collection("users");
+      if (currentUser != null) {
+        CollectionReference userMainCollection =
+            FirebaseFirestore.instance.collection("users");
 
-    CollectionReference userOrderSubCollection =
-        userMainCollection.doc(currentUser.email).collection('Orderuser');
+        CollectionReference userOrderSubCollection =
+            userMainCollection.doc(currentUser.email).collection('Orderuser');
 
-    print('email :$currentUser.email');
-    await userOrderSubCollection.doc(data['ชื่อเมนู']).set(datamenumankai);
-  }
-}
-
+        print('email :$currentUser.email');
+        await userOrderSubCollection.doc(data['ชื่อเมนู']).set(datamenumankai);
+      }
+    }
   }
 
   TextEditingController manyother = TextEditingController();

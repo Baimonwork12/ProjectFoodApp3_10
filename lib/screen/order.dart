@@ -50,8 +50,16 @@ class _orderState extends State<order> {
                 itemBuilder: (context, index) {
                   final data = documents[index];
                   return ListTile(
-                      title:
-                          Text(data['สถานะ'], style: const TextStyle(fontSize: 20)),
+                      title: Text('อาหารตามสั่ง',
+                          style: const TextStyle(fontSize: 20)),
+                      subtitle: Text(
+                        data['วันและเวลา'],
+                        style: TextStyle(fontSize: 15),
+                      ),
+                      trailing: Text(
+                        data['สถานะ'],
+                        style: TextStyle(fontSize: 20),
+                      ),
                       onTap: () {
                         Navigator.push(
                           context,

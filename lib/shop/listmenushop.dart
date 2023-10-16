@@ -16,12 +16,77 @@ class _ListmenushopState extends State<Listmenushop> {
       .collection("users")
       .doc('testerappfood.user@gmail.com')
       .collection("status");
+  bool _isButtonVisible = true; // เพิ่มตัวแปรสำหรับการตรวจสอบสถานะของปุ่ม
+  bool _isButtonVisible1 = true;
+  bool _isButtonVisible2 = true;
+  bool _isButtonVisible3 = true;
+  bool _isButtonVisible4 = true;
+  bool _isButtonVisible5 = true;
+
+  void sendstatus() async {
+    String status = "ยกเลิกออเดอร์";
+    final data = await widget.selectmenu.get();
+    Map<String, dynamic> datamenu = {
+      'เมนู': data['เมนู'],
+      'เลขออเดอร์': data['เลขออเดอร์'],
+      'รายละเอียด': data['รายละเอียด'],
+      'อื่นๆ': data['อื่นๆ'],
+      // ignore: equal_keys_in_map
+      'เพิ่มเติม': data['เพิ่มเติม'],
+      'ไข่': data['ไข่'],
+      'ราคา': data['ราคา'], // Format the price to 2 decimal places
+      'จำนวน': data['จำนวน'],
+      'รวม': data['รวม'],
+      'สถานะ': status,
+      'วันและเวลา': DateTime.now().toString(),
+    };
+
+    // Add the document to the collection
+    await collectionStatus.doc(data['เลขออเดอร์'].toString()).set(datamenu);
+    // เพิ่ม SnackBar
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('ข้อมูลถูกบันทึกสำเร็จ'),
+      ),
+    );
+  }
+
+  void sendstatuszero() async {
+    String statuszero = "รับออเดอร์";
+    final data = await widget.selectmenu.get();
+    Map<String, dynamic> datamenu = {
+      'เมนู': data['เมนู'],
+      'เลขออเดอร์': data['เลขออเดอร์'],
+      'รายละเอียด': data['รายละเอียด'],
+      'อื่นๆ': data['อื่นๆ'],
+      // ignore: equal_keys_in_map
+      'เพิ่มเติม': data['เพิ่มเติม'],
+      'ไข่': data['ไข่'],
+      'ราคา': data['ราคา'], // Format the price to 2 decimal places
+      'จำนวน': data['จำนวน'],
+      'รวม': data['รวม'],
+      'สถานะ': statuszero,
+      'วันและเวลา': DateTime.now().toString(),
+    };
+
+    // Add the document to the collection
+    await collectionStatus.doc(data['เลขออเดอร์'].toString()).set(datamenu);
+    // เพิ่ม SnackBar
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('ข้อมูลถูกบันทึกสำเร็จ'),
+      ),
+    );
+  }
 
   void sendstatusone() async {
     String statusone = "กำลังทำ";
     final data = await widget.selectmenu.get();
     Map<String, dynamic> datamenu = {
       'เมนู': data['เมนู'],
+      'เลขออเดอร์': data['เลขออเดอร์'],
       'รายละเอียด': data['รายละเอียด'],
       'อื่นๆ': data['อื่นๆ'],
       // ignore: equal_keys_in_map
@@ -31,10 +96,11 @@ class _ListmenushopState extends State<Listmenushop> {
       'จำนวน': data['จำนวน'],
       'รวม': data['รวม'],
       'สถานะ': statusone,
+      'วันและเวลา': DateTime.now().toString(),
     };
 
     // Add the document to the collection
-    await collectionStatus.doc(statusone).set(datamenu);
+    await collectionStatus.doc(data['เลขออเดอร์'].toString()).set(datamenu);
     // เพิ่ม SnackBar
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -45,9 +111,11 @@ class _ListmenushopState extends State<Listmenushop> {
 
   void sendstatustwo() async {
     String statustwo = "ทำเสร็จแล้ว";
+
     final data = await widget.selectmenu.get();
     Map<String, dynamic> datamenu = {
       'เมนู': data['เมนู'],
+      'เลขออเดอร์': data['เลขออเดอร์'],
       'รายละเอียด': data['รายละเอียด'],
       'อื่นๆ': data['อื่นๆ'],
       // ignore: equal_keys_in_map
@@ -57,36 +125,11 @@ class _ListmenushopState extends State<Listmenushop> {
       'จำนวน': data['จำนวน'],
       'รวม': data['รวม'],
       'สถานะ': statustwo,
+      'วันและเวลา': DateTime.now().toString(),
     };
 
     // Add the document to the collection
-    await collectionStatus.doc(statustwo).set(datamenu);
-    // เพิ่ม SnackBar
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('ข้อมูลถูกบันทึกสำเร็จ'),
-      ),
-    );
-  }
-
-  void sendstatusfour() async {
-    String statusfour = "แจ้งเตือนครั้งที่2";
-    final data = await widget.selectmenu.get();
-    Map<String, dynamic> datamenu = {
-      'เมนู': data['เมนู'],
-      'รายละเอียด': data['รายละเอียด'],
-      'อื่นๆ': data['อื่นๆ'],
-      // ignore: equal_keys_in_map
-      'เพิ่มเติม': data['เพิ่มเติม'],
-      'ไข่': data['ไข่'],
-      'ราคา': data['ราคา'], // Format the price to 2 decimal places
-      'จำนวน': data['จำนวน'],
-      'รวม': data['รวม'],
-      'สถานะ': statusfour,
-    };
-
-    // Add the document to the collection
-    await collectionStatus.doc(statusfour).set(datamenu);
+    await collectionStatus.doc(data['เลขออเดอร์'].toString()).set(datamenu);
     // เพิ่ม SnackBar
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -100,6 +143,7 @@ class _ListmenushopState extends State<Listmenushop> {
     final data = await widget.selectmenu.get();
     Map<String, dynamic> datamenu = {
       'เมนู': data['เมนู'],
+      'เลขออเดอร์': data['เลขออเดอร์'],
       'รายละเอียด': data['รายละเอียด'],
       'อื่นๆ': data['อื่นๆ'],
       // ignore: equal_keys_in_map
@@ -109,12 +153,41 @@ class _ListmenushopState extends State<Listmenushop> {
       'จำนวน': data['จำนวน'],
       'รวม': data['รวม'],
       'สถานะ': statusthree,
+      'วันและเวลา': DateTime.now().toString(),
     };
 
     // Add the document to the collection
-    await collectionStatus.doc(statusthree).set(datamenu);
+    await collectionStatus.doc(data['เลขออเดอร์'].toString()).set(datamenu);
     // เพิ่ม SnackBar
     // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('ข้อมูลถูกบันทึกสำเร็จ'),
+      ),
+    );
+  }
+
+  void sendstatusfour() async {
+    String statusfour = "แจ้งเตือนครั้งที่2";
+    final data = await widget.selectmenu.get();
+    Map<String, dynamic> datamenu = {
+      'เมนู': data['เมนู'],
+      'เลขออเดอร์': data['เลขออเดอร์'],
+      'รายละเอียด': data['รายละเอียด'],
+      'อื่นๆ': data['อื่นๆ'],
+      // ignore: equal_keys_in_map
+      'เพิ่มเติม': data['เพิ่มเติม'],
+      'ไข่': data['ไข่'],
+      'ราคา': data['ราคา'], // Format the price to 2 decimal places
+      'จำนวน': data['จำนวน'],
+      'รวม': data['รวม'],
+      'สถานะ': statusfour,
+      'วันและเวลา': DateTime.now().toString(),
+    };
+
+    // Add the document to the collection
+    await collectionStatus.doc(data['เลขออเดอร์'].toString()).set(datamenu);
+    // เพิ่ม SnackBar
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
         content: Text('ข้อมูลถูกบันทึกสำเร็จ'),
@@ -161,6 +234,8 @@ class _ListmenushopState extends State<Listmenushop> {
                     ),
                   ],
                 ),
+                Text('เลขออเดอร์: ${data['เลขออเดอร์']}',
+                    style: const TextStyle(fontSize: 20)),
                 Text(
                   'รายละเอียด: ${data['รายละเอียด']}',
                   style: const TextStyle(fontSize: 20),
@@ -182,58 +257,141 @@ class _ListmenushopState extends State<Listmenushop> {
                   children: [
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
-                      child: TextButton(
-                        style: TextButton.styleFrom(
-                            backgroundColor:
-                                const Color.fromARGB(255, 241, 87, 76)),
-                        child: const Text(
-                          'กำลังทำ',
-                          style: TextStyle(fontSize: 20, color: Colors.black),
-                        ),
-                        // เพิ่มโค้ดเพื่อเก็บข้อมูลลงใน firebase เมื่อกดปุ่ม
-                        onPressed: () {
-                          sendstatusone();
-                        },
-                      ),
+                      child: _isButtonVisible5
+                          ? TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor: Color.fromARGB(255, 255, 0, 0),
+                              ),
+                              child: const Text(
+                                'ยกเลิกออเดอร์',
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.black),
+                              ),
+                              onPressed: () {
+                                sendstatus();
+
+                                setState(() {
+                                  _isButtonVisible5 =
+                                      false; // เปลี่ยนค่าเพื่อทำให้ปุ่มหายไป
+                                });
+                              },
+                            )
+                          : Container(), // ถ้า _isButtonVisible เป็นเท็จ จะแสดง Container() ซึ่งไม่แสดงอะไรเลย
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: TextButton(
-                          style: TextButton.styleFrom(
-                              backgroundColor: Colors.yellow.shade300),
-                          child: const Text(
-                            'ทำเสร็จแล้ว',
-                            style: TextStyle(fontSize: 20, color: Colors.black),
-                          ),
-                          onPressed: () {
-                            sendstatustwo();
-                          }),
+                      child: _isButtonVisible1
+                          ? TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor:
+                                    Color.fromARGB(255, 241, 139, 80),
+                              ),
+                              child: const Text(
+                                'รับออเดอร์',
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.black),
+                              ),
+                              onPressed: () {
+                                sendstatuszero();
+                                setState(() {
+                                  _isButtonVisible1 =
+                                      false; // เปลี่ยนค่าเพื่อทำให้ปุ่มหายไป
+                                });
+                              },
+                            )
+                          : Container(), // ถ้า _isButtonVisible เป็นเท็จ จะแสดง Container() ซึ่งไม่แสดงอะไรเลย
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: TextButton(
-                          style: TextButton.styleFrom(
-                              backgroundColor: Colors.blue),
-                          child: const Text(
-                            'แจ้งเตือนครั้งที่2',
-                            style: TextStyle(fontSize: 20, color: Colors.black),
-                          ),
-                          onPressed: () {
-                            sendstatusfour();
-                          }),
+                      child: _isButtonVisible
+                          ? TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor:
+                                    Color.fromARGB(255, 252, 110, 100),
+                              ),
+                              child: const Text(
+                                'กำลังทำ',
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.black),
+                              ),
+                              onPressed: () {
+                                sendstatusone();
+                                setState(() {
+                                  _isButtonVisible =
+                                      false; // เปลี่ยนค่าเพื่อทำให้ปุ่มหายไป
+                                });
+                              },
+                            )
+                          : Container(), // ถ้า _isButtonVisible เป็นเท็จ จะแสดง Container() ซึ่งไม่แสดงอะไรเลย
                     ),
                     Padding(
                       padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
-                      child: TextButton(
-                          style: TextButton.styleFrom(
-                              backgroundColor: Colors.green),
-                          child: const Text(
-                            'รับออเดอร์เรียบร้อย',
-                            style: TextStyle(fontSize: 20, color: Colors.black),
-                          ),
-                          onPressed: () {
-                            sendstatusthree();
-                          }),
+                      child: _isButtonVisible2
+                          ? TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor:
+                                    Color.fromARGB(255, 174, 236, 138),
+                              ),
+                              child: const Text(
+                                'ทำเสร็จแล้ว',
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.black),
+                              ),
+                              onPressed: () {
+                                sendstatustwo();
+                                setState(() {
+                                  _isButtonVisible2 =
+                                      false; // เปลี่ยนค่าเพื่อทำให้ปุ่มหายไป
+                                });
+                              },
+                            )
+                          : Container(), // ถ้า _isButtonVisible เป็นเท็จ จะแสดง Container() ซึ่งไม่แสดงอะไรเลย
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      child: _isButtonVisible3
+                          ? TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor:
+                                    Color.fromARGB(255, 73, 167, 230),
+                              ),
+                              child: const Text(
+                                'แจ้งเตือนx2',
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.black),
+                              ),
+                              onPressed: () {
+                                sendstatusthree();
+                                setState(() {
+                                  _isButtonVisible3 =
+                                      false; // เปลี่ยนค่าเพื่อทำให้ปุ่มหายไป
+                                });
+                              },
+                            )
+                          : Container(), // ถ้า _isButtonVisible เป็นเท็จ จะแสดง Container() ซึ่งไม่แสดงอะไรเลย
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.fromLTRB(0, 10, 0, 0),
+                      child: _isButtonVisible4
+                          ? TextButton(
+                              style: TextButton.styleFrom(
+                                backgroundColor:
+                                    Color.fromARGB(255, 37, 241, 71),
+                              ),
+                              child: const Text(
+                                'รับสินค้าเรียบร้อย',
+                                style: TextStyle(
+                                    fontSize: 20, color: Colors.black),
+                              ),
+                              onPressed: () {
+                                sendstatusthree();
+                                setState(() {
+                                  _isButtonVisible4 =
+                                      false; // เปลี่ยนค่าเพื่อทำให้ปุ่มหายไป
+                                });
+                              },
+                            )
+                          : Container(), // ถ้า _isButtonVisible เป็นเท็จ จะแสดง Container() ซึ่งไม่แสดงอะไรเลย
                     ),
                   ],
                 )
