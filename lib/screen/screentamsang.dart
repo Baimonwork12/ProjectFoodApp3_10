@@ -2,8 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/datamenu/dtmenu.dart';
 
-
-
+// ignore: camel_case_types
 class dttamsang extends StatefulWidget {
   final DocumentReference menu;
   const dttamsang({Key? key, required this.menu}) : super(key: key);
@@ -24,8 +23,7 @@ class _dttamsangState extends State<dttamsang> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('เมนู'),backgroundColor: Colors.blue.shade300
-        ),
+            title: const Text('เมนู'), backgroundColor: Colors.blue.shade300),
         body: StreamBuilder(
             stream: menuCollection,
             builder: (context, snapshot) {
@@ -53,16 +51,17 @@ class _dttamsangState extends State<dttamsang> {
                 return ListView.builder(
                   itemCount: documents.length,
                   itemBuilder: (context, index) {
-                    final data =
-                        documents[index];
+                    final data = documents[index];
                     return ListTile(
-                      title: Text(data['ชื่อเมนู']),
-                      subtitle: Text(data['ราคา']),
-                      onTap: (){
-                 Navigator.push(context, MaterialPageRoute(
-                builder: (context)=>Dtmenu(selectItem: data.reference)));
-            }
-                    );
+                        title: Text(data['ชื่อเมนู']),
+                        subtitle: Text(data['ราคา']),
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                  builder: (context) =>
+                                      Dtmenu(selectItem: data.reference)));
+                        });
                   },
                 );
               }

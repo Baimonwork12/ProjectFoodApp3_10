@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/shop/adddata/add_datamenu.dart';
 
@@ -10,16 +11,18 @@ class MenuShop extends StatefulWidget {
 }
 
 class _MenuShopState extends State<MenuShop> {
-  void editData(DocumentReference documentReference, Map<String, dynamic> data) async {
-  // คุณสามารถแก้ไขข้อมูลที่ต้องการใน data ตรงนี้
-  // เช่น data['ชื่อเมนู'] = 'เมนูที่แก้ไขแล้ว';
-  //       data['ราคา'] = 100; // เปลี่ยนราคาเป็น 100
-  // หลังจากแก้ไขข้อมูลเสร็จแล้ว ให้บันทึกข้อมูลใหม่ลงใน Firestore
+  final String currentUserEmail = FirebaseAuth.instance.currentUser!.email!;
+  void editData(
+      DocumentReference documentReference, Map<String, dynamic> data) async {
+    // คุณสามารถแก้ไขข้อมูลที่ต้องการใน data ตรงนี้
+    // เช่น data['ชื่อเมนู'] = 'เมนูที่แก้ไขแล้ว';
+    //       data['ราคา'] = 100; // เปลี่ยนราคาเป็น 100
+    // หลังจากแก้ไขข้อมูลเสร็จแล้ว ให้บันทึกข้อมูลใหม่ลงใน Firestore
 
-  await documentReference.update(data);
-  // หรือถ้าคุณต้องการใช้ `set` แทนการ `update` เพื่อแทนที่ข้อมูลทั้งหมด
-  // await documentReference.set(data);
-}
+    await documentReference.update(data);
+    // หรือถ้าคุณต้องการใช้ `set` แทนการ `update` เพื่อแทนที่ข้อมูลทั้งหมด
+    // await documentReference.set(data);
+  }
 
   late Stream<QuerySnapshot> menuCollection;
   @override
@@ -27,21 +30,23 @@ class _MenuShopState extends State<MenuShop> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-          title: const Text('เมนูร้านค้า'),backgroundColor: Colors.deepPurple.shade300,
+          title: const Text('เมนูร้านค้า'),
+          backgroundColor: Colors.deepPurple.shade300,
           actions: <Widget>[
             IconButton(
                 onPressed: () {
-                  Navigator.push(context,
-                      MaterialPageRoute(builder: (context) => const Adddatamenu()));
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const Adddatamenu()));
                 },
                 icon: const Icon(Icons.note_add)),
-                
           ],
         ),
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('Shop')
-              .doc('tbk1243@gmail.com')
+              .doc(currentUserEmail)
               .collection('menu')
               .snapshots(),
           builder: (context, snapshot) {
@@ -67,16 +72,17 @@ class _MenuShopState extends State<MenuShop> {
               }
               return ListView.builder(
                 itemCount: snapshot.data!.docs.length,
-       itemBuilder: (context, index) {
+                itemBuilder: (context, index) {
                   final data = documents[index];
                   return ListTile(
-                      title: Text(data['ชื่อเมนู'],style: const TextStyle(fontSize: 20)),
+                      title: Text(data['ชื่อเมนู'],
+                          style: const TextStyle(fontSize: 20)),
                       // เพิ่ม icon ที่สอง
-trailing: Stack(
-  children: [
+                      trailing: Stack(
+                        children: [
 //     IconButton(
 //       onPressed: () {
- 
+
 //   documents[index].reference.update({
 //     'ชื่อเมนู':  data['ชื่อเมนู'],
 //     'ราคา': data['ราคา'].toString(),
@@ -118,44 +124,37 @@ trailing: Stack(
 // //                       MaterialPageRoute(builder: (context) =>
 // //                       EditDataPopup(editdatamenu: documents[index].reference, data: {},)));
 // //       },
-      
-                  
-                
+
 //       icon: const Padding(
 //         padding: EdgeInsets.fromLTRB(0, 0, 30, 0),
 //         child: Icon(Icons.edit, size: 20, color: Colors.black),
 //       ),
 
 //     ),
-    // เปลี่ยน icon ที่สองเป็น icon สำหรับลบ
-    IconButton(
-      onPressed: () {
-  // ฟังก์ชันสำหรับ icon ที่สอง
-  // documents[index].reference.delete();
-  // เปลี่ยนเป็น
-        documents[index].reference.delete();
+                          // เปลี่ยน icon ที่สองเป็น icon สำหรับลบ
+                          IconButton(
+                            onPressed: () {
+                              // ฟังก์ชันสำหรับ icon ที่สอง
+                              // documents[index].reference.delete();
+                              // เปลี่ยนเป็น
+                              documents[index].reference.delete();
+                            },
 
-},
-
-      // onPressed: () {
-      //   // ฟังก์ชันสำหรับ icon ที่สอง
-      //   documents[index].reference.delete();
-      // },
-      icon: const Padding(
-        padding: EdgeInsets.fromLTRB(30, 0 , 0, 0),
-        child: Icon(Icons.delete, size: 30, color: Colors.red),
-      ),
-    ),
-  ],
-),
-
-
-
+                            // onPressed: () {
+                            //   // ฟังก์ชันสำหรับ icon ที่สอง
+                            //   documents[index].reference.delete();
+                            // },
+                            icon: const Padding(
+                              padding: EdgeInsets.fromLTRB(30, 0, 0, 0),
+                              child: Icon(Icons.delete,
+                                  size: 30, color: Colors.red),
+                            ),
+                          ),
+                        ],
+                      ),
 
                       // subtitle: Text(data['ราคา']),
-                      onTap: () {
-                        
-                      });
+                      onTap: () {});
                 },
               );
             }
@@ -164,6 +163,7 @@ trailing: Stack(
         ));
   }
 }
+
 class EditDataPopup extends StatefulWidget {
   final DocumentReference editdatamenu;
   final Map<String, dynamic> data;
@@ -176,6 +176,7 @@ class EditDataPopup extends StatefulWidget {
   @override
   State<EditDataPopup> createState() => _EditDataPopupState();
 }
+
 class _EditDataPopupState extends State<EditDataPopup> {
   final _nameController = TextEditingController();
   final _priceController = TextEditingController();
@@ -188,7 +189,8 @@ class _EditDataPopupState extends State<EditDataPopup> {
   }
 
   // ฟังก์ชันสำหรับแก้ไขข้อมูลในเอกสาร
-  void editData(DocumentReference documentReference, Map<String, dynamic> data) async {
+  void editData(
+      DocumentReference documentReference, Map<String, dynamic> data) async {
     // คุณสามารถแก้ไขข้อมูลที่ต้องการใน data ตรงนี้
     // เช่น data['ชื่อเมนู'] = 'เมนูที่แก้ไขแล้ว';
     //       data['ราคา'] = 100; // เปลี่ยนราคาเป็น 100
@@ -242,4 +244,3 @@ class _EditDataPopupState extends State<EditDataPopup> {
     );
   }
 }
-

@@ -11,18 +11,13 @@ class Adddatamenu extends StatefulWidget {
 }
 
 class _AdddatamenuState extends State<Adddatamenu> {
+  final String currentUserEmail = FirebaseAuth.instance.currentUser!.email!;
   TextEditingController namemenu = TextEditingController();
   TextEditingController price = TextEditingController();
-  
+
   final formKey = GlobalKey<FormState>();
 
-  
-
-
-
-
-
-Future<void> sendUserDataToDB() async {
+  Future<void> sendUserDataToDB() async {
     final FirebaseAuth auth = FirebaseAuth.instance;
     var currentUser = auth.currentUser;
 
@@ -39,8 +34,8 @@ Future<void> sendUserDataToDB() async {
             FirebaseFirestore.instance.collection('Shop');
 
         CollectionReference userMenuSubCollection =
-            userMainCollection.doc('tbk1243@gmail.com').collection('menu');
-            print('email :$currentUser.email');
+            userMainCollection.doc(currentUserEmail).collection('menu');
+        print('email :$currentUser.email');
 
         await userMenuSubCollection.doc(namemenu.text).set(menuData);
       }
@@ -49,45 +44,56 @@ Future<void> sendUserDataToDB() async {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(appBar: AppBar(title: const Text('เพิ่มเมนูร้านค้า'),backgroundColor: Colors.deepPurple.shade300),
-      body: Form(
-        key: formKey,
-        child: Column(
-        children: [
-          Padding(
-            padding: const EdgeInsets.fromLTRB(5, 20, 0, 0),
-            child: TextFormField(controller: namemenu,
-            decoration: const InputDecoration(
-              labelText: 'ชื่อเมนู',
-              hintText: 'ชื่อเมนู'
-              
-            ),validator: (value) {
-              if(value == null || value.isEmpty){
-                return ' กรุณากรอกชื่อเมนู';
-              }return null;
-            },),
-          ),const SizedBox(height: 10,),
-          TextFormField(keyboardType: TextInputType.phone,
-            controller: price,
-            decoration: const InputDecoration(
-              hintText: 'ราคา',
-              labelText: 'ราคา'
-            
-            ),
-            validator: (value) {
-            if(value == null || value.isEmpty){
-              return ' กรุณากรอกราคา';
-            }return null;
-          },
-          ),const SizedBox(height: 10,),
-          
-          OutlinedButton(onPressed: (){
-             sendUserDataToDB();
-            Navigator.push(context, MaterialPageRoute(builder: (context)=>(const MyNavigator1())));
-          }, child: const Text('บันทึก'))
-        ],
-      ))
-      
-    );
+    return Scaffold(
+        appBar: AppBar(
+            title: const Text('เพิ่มเมนูร้านค้า'),
+            backgroundColor: Colors.deepPurple.shade300),
+        body: Form(
+            key: formKey,
+            child: Column(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(5, 20, 0, 0),
+                  child: TextFormField(
+                    controller: namemenu,
+                    decoration: const InputDecoration(
+                        labelText: 'ชื่อเมนู', hintText: 'ชื่อเมนู'),
+                    validator: (value) {
+                      if (value == null || value.isEmpty) {
+                        return ' กรุณากรอกชื่อเมนู';
+                      }
+                      return null;
+                    },
+                  ),
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                TextFormField(
+                  keyboardType: TextInputType.phone,
+                  controller: price,
+                  decoration: const InputDecoration(
+                      hintText: 'ราคา', labelText: 'ราคา'),
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return ' กรุณากรอกราคา';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(
+                  height: 10,
+                ),
+                OutlinedButton(
+                    onPressed: () {
+                      sendUserDataToDB();
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) => (const MyNavigator1())));
+                    },
+                    child: const Text('บันทึก'))
+              ],
+            )));
   }
 }

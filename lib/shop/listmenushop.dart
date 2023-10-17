@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class Listmenushop extends StatefulWidget {
   final DocumentReference selectmenu;
@@ -38,7 +39,9 @@ class _ListmenushopState extends State<Listmenushop> {
       'จำนวน': data['จำนวน'],
       'รวม': data['รวม'],
       'สถานะ': status,
-      'วันและเวลา': DateTime.now().toString(),
+      'วันที่และเวลา':
+          DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
+      'ชื่อร้านค้า': 'อาหารตามสั่ง'
     };
 
     // Add the document to the collection
@@ -67,7 +70,9 @@ class _ListmenushopState extends State<Listmenushop> {
       'จำนวน': data['จำนวน'],
       'รวม': data['รวม'],
       'สถานะ': statuszero,
-      'วันและเวลา': DateTime.now().toString(),
+      'วันที่และเวลา':
+          DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
+      'ชื่อร้านค้า': 'อาหารตามสั่ง'
     };
 
     // Add the document to the collection
@@ -96,7 +101,9 @@ class _ListmenushopState extends State<Listmenushop> {
       'จำนวน': data['จำนวน'],
       'รวม': data['รวม'],
       'สถานะ': statusone,
-      'วันและเวลา': DateTime.now().toString(),
+      'วันที่และเวลา':
+          DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
+      'ชื่อร้านค้า': 'อาหารตามสั่ง'
     };
 
     // Add the document to the collection
@@ -125,7 +132,9 @@ class _ListmenushopState extends State<Listmenushop> {
       'จำนวน': data['จำนวน'],
       'รวม': data['รวม'],
       'สถานะ': statustwo,
-      'วันและเวลา': DateTime.now().toString(),
+      'วันที่และเวลา':
+          DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
+      'ชื่อร้านค้า': 'อาหารตามสั่ง'
     };
 
     // Add the document to the collection
@@ -153,7 +162,9 @@ class _ListmenushopState extends State<Listmenushop> {
       'จำนวน': data['จำนวน'],
       'รวม': data['รวม'],
       'สถานะ': statusthree,
-      'วันและเวลา': DateTime.now().toString(),
+      'วันที่และเวลา':
+          DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
+      'ชื่อร้านค้า': 'อาหารตามสั่ง'
     };
 
     // Add the document to the collection
@@ -182,7 +193,9 @@ class _ListmenushopState extends State<Listmenushop> {
       'จำนวน': data['จำนวน'],
       'รวม': data['รวม'],
       'สถานะ': statusfour,
-      'วันและเวลา': DateTime.now().toString(),
+      'วันที่และเวลา':
+          DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
+      'ชื่อร้านค้า': 'อาหารตามสั่ง'
     };
 
     // Add the document to the collection
@@ -229,13 +242,16 @@ class _ListmenushopState extends State<Listmenushop> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      'เมนู: ${data['เมนู']}',
+                      'เลขออเดอร์: ${data['เลขออเดอร์']}',
                       style: const TextStyle(fontSize: 25),
                     ),
                   ],
                 ),
-                Text('เลขออเดอร์: ${data['เลขออเดอร์']}',
-                    style: const TextStyle(fontSize: 20)),
+                Text(
+                  'เมนู: ${data['เมนู']}',
+                  style: const TextStyle(fontSize: 25),
+                ),
+
                 Text(
                   'รายละเอียด: ${data['รายละเอียด']}',
                   style: const TextStyle(fontSize: 20),

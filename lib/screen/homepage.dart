@@ -12,7 +12,6 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-  // List<Widget> screens = const [dttamsang(),kawkapao()];
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -30,19 +29,19 @@ class _HomepageState extends State<Homepage> {
             itemBuilder: (context, index) {
               final data = documents[index].data() as Map<String, dynamic>;
               return ListTile(
-                title: Text(
-                  data['ชื่อร้านค้า'], style: const TextStyle(fontSize: 20)
-                ),
-                subtitle: Row(mainAxisAlignment: MainAxisAlignment.start,
+                title: Text(data['ชื่อร้านค้า'],
+                    style: const TextStyle(fontSize: 20)),
+                subtitle: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     const Text(
                       'เบอร์โทรศัพท์: ',
                       style: TextStyle(fontSize: 20),
                     ),
                     Text(
-                      data['เบอร์โทรศัพท์'],style: const TextStyle(fontSize: 20),
+                      data['เบอร์โทรศัพท์'],
+                      style: const TextStyle(fontSize: 20),
                     ),
-                    
                   ],
                 ),
                 onTap: () {

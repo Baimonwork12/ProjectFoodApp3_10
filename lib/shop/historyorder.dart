@@ -1,42 +1,28 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:food_app/shop/historyorder.dart';
-import 'package:food_app/shop/listmenushop.dart';
+import 'package:food_app/shop/listhistoryshop.dart';
 
-class Ordershop extends StatefulWidget {
-  const Ordershop({super.key});
+class HistoryOrder extends StatefulWidget {
+  const HistoryOrder({super.key});
 
   @override
-  State<Ordershop> createState() => _OrdershopState();
+  State<HistoryOrder> createState() => _HistoryOrderState();
 }
 
-class _OrdershopState extends State<Ordershop> {
-  // Get the current user's email address
+class _HistoryOrderState extends State<HistoryOrder> {
   final String currentUserEmail = FirebaseAuth.instance.currentUser!.email!;
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
-            title: const Text('รายการสั่ง'),
-            actions: <Widget>[
-              IconButton(
-                  onPressed: () {
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const HistoryOrder()));
-                  },
-                  icon: const Icon(Icons.list_alt)),
-            ],
+            title: const Text('ประวัติ'),
             backgroundColor: Colors.deepPurple.shade300),
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
-              // Reference the current user's orders collection
               .collection('Shop')
               .doc(currentUserEmail)
-              .collection('Ordershop')
+              .collection('Historyshop')
               .snapshots(),
           builder: (context, snapshot) {
             if (snapshot.connectionState == ConnectionState.waiting) {
@@ -71,9 +57,9 @@ class _OrdershopState extends State<Ordershop> {
                       title: Row(
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          Text(
+                          const Text(
                             'เมนู',
-                            style: const TextStyle(fontSize: 20),
+                            style: TextStyle(fontSize: 20),
                           ),
                           Text(
                             data['เมนู'],
@@ -92,8 +78,10 @@ class _OrdershopState extends State<Ordershop> {
                             mainAxisAlignment: MainAxisAlignment.start,
                             children: [
                               Text(
-                                ' (จำนวน : ${data['จำนวน']})',
-                                style: const TextStyle(fontSize: 18),
+                                data['สถานะ'],
+                                style: const TextStyle(
+                                    fontSize: 18,
+                                    color: Color.fromARGB(255, 53, 224, 59)),
                               ),
                             ],
                           ),
@@ -114,8 +102,8 @@ class _OrdershopState extends State<Ordershop> {
                         Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) => Listmenushop(
-                                selectmenu: documents[index].reference,
+                              builder: (context) => ListHistory(
+                                selectnumoreder: documents[index].reference,
                               ),
                             ));
                       });

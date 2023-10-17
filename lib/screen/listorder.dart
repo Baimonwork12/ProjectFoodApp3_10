@@ -1,5 +1,8 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:food_app/screen/listmenu.dart';
+import 'package:intl/intl.dart';
 
 class Listorder extends StatefulWidget {
   final DocumentReference selectstatus;
@@ -16,14 +19,16 @@ class _ListorderState extends State<Listorder> {
       .doc('tbk1243@gmail.com')
       .collection("Ordershop");
 
-  void sendstatususer() async {
+  Future<void> sendstatususer() async {
+    // ประกาศตัวแปร data ก่อนการเรียกใช้ StreamBuilder
     final data = await widget.selectstatus.get();
-    String statususer = "รับสินค้าแล้ว";
 
+    // บันทึกข้อมูลลงใน Firebase
+    final FirebaseAuth auth = FirebaseAuth.instance;
+    String statusuer = 'รับออเดอร์เรียบร้อย';
     Map<String, dynamic> datamenu = {
-      'สถานะ': statususer,
+      'สถานะ': statusuer,
       'เมนู': data['เมนู'],
-      'เลขออเดอร์': data['เลขออเดอร์'],
       'รายละเอียด': data['รายละเอียด'],
       'อื่นๆ': data['อื่นๆ'],
       // ignore: equal_keys_in_map
@@ -32,11 +37,43 @@ class _ListorderState extends State<Listorder> {
       'ราคา': data['ราคา'], // Format the price to 2 decimal places
       'จำนวน': data['จำนวน'],
       'รวม': data['รวม'],
+      'เลขออเดอร์': ((orderNumber++).toString()).substring(1),
+      'วันที่และเวลา':
+          DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
     };
 
-    // Add the document to the collection
-    await collectionStatus.doc(data['เมนู']).set(datamenu);
-    // เพิ่ม SnackBar
+    var currentUser = auth.currentUser;
+    if (currentUser != null) {
+      // ตรวจสอบเมนูที่สั่ง
+      if (data['เมนู'].contains('ข้าวมันไก่')) {
+        // บันทึกข้อมูลไปยัง Ordershop อีเมลล์palmloveconan@gmail.com
+        CollectionReference userMainCollection =
+            FirebaseFirestore.instance.collection("Shop");
+
+        CollectionReference ShopOrderSubCollection = userMainCollection
+            .doc('palmdisaster2843@gmail.com')
+            .collection('Historyshop');
+
+        await ShopOrderSubCollection.doc(data['เลขออเดอร์']).set(datamenu);
+      } else {
+        // บันทึกข้อมูลไปยัง Ordershop อีเมลล์tbk1243@gmail.com
+        CollectionReference userMainCollection =
+            FirebaseFirestore.instance.collection("Shop");
+
+        CollectionReference ShopOrderSubCollection = userMainCollection
+            .doc('tbk1243@gmail.com')
+            .collection('Historyshop');
+
+        await ShopOrderSubCollection.doc(data['เลขออเดอร์']).set(datamenu);
+      }
+
+      // ลบข้อมูลในหน้า Cart
+      const Scaffold(
+        body: Text('ไม่มีข้อมูล'),
+      );
+    }
+
+    // แสดงข้อความแจ้งเตือน
     // ignore: use_build_context_synchronously
     ScaffoldMessenger.of(context).showSnackBar(
       const SnackBar(
@@ -78,6 +115,10 @@ class _ListorderState extends State<Listorder> {
                   ],
                 ),
                 Text(
+                  'เลขออเดอร์: ${data['เลขออเดอร์']}',
+                  style: const TextStyle(fontSize: 25),
+                ),
+                Text(
                   'เมนู: ${data['เมนู']}',
                   style: const TextStyle(fontSize: 25),
                 ),
@@ -102,7 +143,7 @@ class _ListorderState extends State<Listorder> {
                   padding: const EdgeInsets.fromLTRB(0, 50, 0, 0),
                   child: TextButton(
                     style: TextButton.styleFrom(
-                        backgroundColor: Color.fromARGB(255, 8, 252, 20)),
+                        backgroundColor: const Color.fromARGB(255, 8, 252, 20)),
                     child: const Text(
                       'รับสินค้าเรียบ',
                       style: TextStyle(fontSize: 20, color: Colors.black),

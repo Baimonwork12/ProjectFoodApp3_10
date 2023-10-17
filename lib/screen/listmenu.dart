@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:intl/intl.dart';
 
 class Listviewmenu extends StatefulWidget {
   final DocumentReference selectorder;
@@ -11,8 +12,6 @@ class Listviewmenu extends StatefulWidget {
   State<Listviewmenu> createState() => _ListviewmenuState();
 }
 
-// 00100
-//001000
 int orderNumber = 1000;
 
 class _ListviewmenuState extends State<Listviewmenu> {
@@ -34,23 +33,33 @@ class _ListviewmenuState extends State<Listviewmenu> {
       'จำนวน': data['จำนวน'],
       'รวม': data['รวม'],
       'เลขออเดอร์': ((orderNumber++).toString()).substring(1),
-      'วันที่และเวลา': DateTime.now().toString(),
-      'ชื่อร้านค้า': 'อาหารตามสั่ง'
+      'วันที่และเวลา':
+          DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
     };
 
     var currentUser = auth.currentUser;
     if (currentUser != null) {
-      CollectionReference userMainCollection =
-          FirebaseFirestore.instance.collection("Shop");
+      // ตรวจสอบเมนูที่สั่ง
+      if (data['เมนู'].contains('ข้าวมันไก่')) {
+        // บันทึกข้อมูลไปยัง Ordershop อีเมลล์palmloveconan@gmail.com
+        CollectionReference userMainCollection =
+            FirebaseFirestore.instance.collection("Shop");
 
-      // ignore: non_constant_identifier_names
-      CollectionReference ShopOrderSubCollection =
-          userMainCollection.doc('tbk1243@gmail.com').collection('Ordershop');
+        CollectionReference ShopOrderSubCollection = userMainCollection
+            .doc('palmdisaster2843@gmail.com')
+            .collection('Ordershop');
 
-      print('email :$currentUser.email');
-      // await userOrderSubCollection.doc(data['เมนู']).get();
-      //แก้ไขเป็น
-      await ShopOrderSubCollection.doc(datamenu['เมนู']).set(datamenu);
+        await ShopOrderSubCollection.doc(datamenu['เมนู']).set(datamenu);
+      } else {
+        // บันทึกข้อมูลไปยัง Ordershop อีเมลล์tbk1243@gmail.com
+        CollectionReference userMainCollection =
+            FirebaseFirestore.instance.collection("Shop");
+
+        CollectionReference ShopOrderSubCollection =
+            userMainCollection.doc('tbk1243@gmail.com').collection('Ordershop');
+
+        await ShopOrderSubCollection.doc(datamenu['เมนู']).set(datamenu);
+      }
 
       // ลบข้อมูลในหน้า Cart
       const Scaffold(
@@ -149,7 +158,7 @@ class _ListviewmenuState extends State<Listviewmenu> {
               color: Colors.green,
               child: // ปรับเปลี่ยนการทำงานของปุ่มสั่งซื้อ
                   TextButton(
-                child: Text('สั่งซื้อ ',
+                child: const Text('สั่งซื้อ ',
                     style: TextStyle(fontSize: 30, color: Colors.white)),
                 onPressed: () {
                   saveOrder();

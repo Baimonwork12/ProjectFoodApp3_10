@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/screen/listorder.dart';
 
@@ -10,7 +11,9 @@ class order extends StatefulWidget {
   State<order> createState() => _orderState();
 }
 
+// ignore: camel_case_types
 class _orderState extends State<order> {
+  final String currentUserEmail = FirebaseAuth.instance.currentUser!.email!;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +24,7 @@ class _orderState extends State<order> {
         body: StreamBuilder<QuerySnapshot>(
           stream: FirebaseFirestore.instance
               .collection('users')
-              .doc('testerappfood.user@gmail.com')
+              .doc(currentUserEmail)
               .collection('status')
               .snapshots(),
           builder: (context, snapshot) {
@@ -50,15 +53,19 @@ class _orderState extends State<order> {
                 itemBuilder: (context, index) {
                   final data = documents[index];
                   return ListTile(
-                      title: Text('อาหารตามสั่ง',
+                      leading: Text(
+                        '${data['เลขออเดอร์'].toString().padLeft(5, '0')}',
+                        style: const TextStyle(fontSize: 20),
+                      ),
+                      title: Text(data['ชื่อร้านค้า'],
                           style: const TextStyle(fontSize: 20)),
                       subtitle: Text(
-                        data['วันและเวลา'],
-                        style: TextStyle(fontSize: 15),
+                        data['วันที่และเวลา'],
+                        style: const TextStyle(fontSize: 15),
                       ),
                       trailing: Text(
                         data['สถานะ'],
-                        style: TextStyle(fontSize: 20),
+                        style: const TextStyle(fontSize: 20),
                       ),
                       onTap: () {
                         Navigator.push(

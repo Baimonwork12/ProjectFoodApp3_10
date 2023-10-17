@@ -26,6 +26,7 @@ class _ProfileState extends State<Profile> {
     await _googleSignIn.signOut();
     // ignore: avoid_print
     print("User Sign Out");
+    // ignore: use_build_context_synchronously
     Navigator.push(
         context, MaterialPageRoute(builder: (context) => const MyWidget()));
   }
@@ -104,7 +105,8 @@ class _ProfileState extends State<Profile> {
                   ),
                 ),
                 // แสดง Display Name
-                const SizedBox(height: 300), // add some space above the logout button
+                const SizedBox(
+                    height: 300), // add some space above the logout button
                 Align(
                   alignment: Alignment.bottomCenter,
                   child: OutlinedButton(
