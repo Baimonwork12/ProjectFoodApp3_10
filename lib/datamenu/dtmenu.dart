@@ -7,8 +7,10 @@ import 'package:flutter/material.dart';
 import 'package:food_app/bottom_nav.dart';
 
 class Dtmenu extends StatefulWidget {
+  final String nameshop;
   final DocumentReference selectItem;
-  const Dtmenu({Key? key, required this.selectItem}) : super(key: key);
+  const Dtmenu({Key? key, required this.selectItem, required this.nameshop})
+      : super(key: key);
   @override
   State<Dtmenu> createState() => _DtmenumankaiState();
 }
@@ -17,10 +19,11 @@ class _DtmenumankaiState extends State<Dtmenu> {
   late Stream<DocumentSnapshot> documentStream;
 
   String? get value => null;
-
+  late String nameshop;
   @override
   void initState() {
     documentStream = widget.selectItem.snapshots();
+    nameshop = widget.nameshop;
     super.initState();
   }
 
@@ -58,6 +61,7 @@ class _DtmenumankaiState extends State<Dtmenu> {
             .toStringAsFixed(2), // Format the price to 2 decimal places
         'จำนวน': numTotal,
         'รวม': totalPrice.toStringAsFixed(2),
+        'ชื่อร้านค้า': nameshop.toString()
       };
 
       // You can use the updated datamenumankai for further processing or send it as needed.
@@ -95,7 +99,7 @@ class _DtmenumankaiState extends State<Dtmenu> {
           key: formKey,
           child: Column(
             children: <Widget>[
-              const Row(
+              Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
@@ -107,6 +111,7 @@ class _DtmenumankaiState extends State<Dtmenu> {
                   ),
                 ],
               ),
+
               RadioListTile<String>(
                 title: const Text(
                   'กินร้าน',

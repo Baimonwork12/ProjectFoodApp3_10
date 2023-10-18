@@ -41,7 +41,7 @@ class _ListmenushopState extends State<Listmenushop> {
       'สถานะ': status,
       'วันที่และเวลา':
           DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
-      'ชื่อร้านค้า': 'อาหารตามสั่ง'
+      'ชื่อร้านค้า': data['ชื่อร้าน']
     };
 
     // Add the document to the collection
@@ -72,7 +72,7 @@ class _ListmenushopState extends State<Listmenushop> {
       'สถานะ': statuszero,
       'วันที่และเวลา':
           DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
-      'ชื่อร้านค้า': 'อาหารตามสั่ง'
+      'ชื่อร้านค้า': data['ชื่อร้าน']
     };
 
     // Add the document to the collection
@@ -103,7 +103,7 @@ class _ListmenushopState extends State<Listmenushop> {
       'สถานะ': statusone,
       'วันที่และเวลา':
           DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
-      'ชื่อร้านค้า': 'อาหารตามสั่ง'
+      'ชื่อร้านค้า': data['ชื่อร้าน']
     };
 
     // Add the document to the collection
@@ -134,7 +134,7 @@ class _ListmenushopState extends State<Listmenushop> {
       'สถานะ': statustwo,
       'วันที่และเวลา':
           DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
-      'ชื่อร้านค้า': 'อาหารตามสั่ง'
+      'ชื่อร้านค้า': data['ชื่อร้าน']
     };
 
     // Add the document to the collection
@@ -164,7 +164,7 @@ class _ListmenushopState extends State<Listmenushop> {
       'สถานะ': statusthree,
       'วันที่และเวลา':
           DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
-      'ชื่อร้านค้า': 'อาหารตามสั่ง'
+      'ชื่อร้านค้า': data['ชื่อร้าน']
     };
 
     // Add the document to the collection
@@ -195,7 +195,7 @@ class _ListmenushopState extends State<Listmenushop> {
       'สถานะ': statusfour,
       'วันที่และเวลา':
           DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
-      'ชื่อร้านค้า': 'อาหารตามสั่ง'
+      'ชื่อร้านค้า': data['ชื่อร้าน']
     };
 
     // Add the document to the collection

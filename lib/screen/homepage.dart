@@ -49,6 +49,7 @@ class _HomepageState extends State<Homepage> {
                       context,
                       MaterialPageRoute(
                           builder: (context) => dttamsang(
+                                shopname: data['ชื่อร้านค้า'],
                                 menu: documents[index].reference,
                               ),
                           settings: RouteSettings(arguments: documents)));

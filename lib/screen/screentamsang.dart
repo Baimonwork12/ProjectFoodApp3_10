@@ -4,8 +4,10 @@ import 'package:food_app/datamenu/dtmenu.dart';
 
 // ignore: camel_case_types
 class dttamsang extends StatefulWidget {
+  final String shopname;
   final DocumentReference menu;
-  const dttamsang({Key? key, required this.menu}) : super(key: key);
+  const dttamsang({Key? key, required this.menu, required this.shopname})
+      : super(key: key);
   @override
   State<dttamsang> createState() => _dttamsangState();
 }
@@ -13,10 +15,13 @@ class dttamsang extends StatefulWidget {
 // ignore: camel_case_types
 class _dttamsangState extends State<dttamsang> {
   late Stream<QuerySnapshot> menuCollection;
+  late String nameshop;
+
   @override
   void initState() {
     super.initState();
     menuCollection = widget.menu.collection('menu').snapshots();
+    nameshop = widget.shopname;
   }
 
   @override
@@ -54,13 +59,19 @@ class _dttamsangState extends State<dttamsang> {
                     final data = documents[index];
                     return ListTile(
                         title: Text(data['ชื่อเมนู']),
-                        subtitle: Text(data['ราคา']),
+                        subtitle: Row(
+                          children: [
+                            Text(data['ราคา']),
+                          ],
+                        ),
                         onTap: () {
                           Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) =>
-                                      Dtmenu(selectItem: data.reference)));
+                                  builder: (context) => Dtmenu(
+                                        selectItem: data.reference,
+                                        nameshop: nameshop,
+                                      )));
                         });
                   },
                 );

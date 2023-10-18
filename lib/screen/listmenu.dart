@@ -12,7 +12,7 @@ class Listviewmenu extends StatefulWidget {
   State<Listviewmenu> createState() => _ListviewmenuState();
 }
 
-int orderNumber = 1000;
+int orderNumber = 100;
 
 class _ListviewmenuState extends State<Listviewmenu> {
   Future<void> saveOrder() async {
@@ -35,12 +35,13 @@ class _ListviewmenuState extends State<Listviewmenu> {
       'เลขออเดอร์': ((orderNumber++).toString()).substring(1),
       'วันที่และเวลา':
           DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
+      'ชื่อร้าน': data['ชื่อร้านค้า']
     };
 
     var currentUser = auth.currentUser;
     if (currentUser != null) {
       // ตรวจสอบเมนูที่สั่ง
-      if (data['เมนู'].contains('ข้าวมันไก่')) {
+      if (data['ชื่อร้านค้า'].contains('ข้าวมันไก่')) {
         // บันทึกข้อมูลไปยัง Ordershop อีเมลล์palmloveconan@gmail.com
         CollectionReference userMainCollection =
             FirebaseFirestore.instance.collection("Shop");
