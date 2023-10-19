@@ -2,33 +2,84 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:food_app/screen/listmenu.dart';
+import 'package:intl/intl.dart';
 
 // ignore: camel_case_types
 class cart extends StatefulWidget {
-  const cart({super.key});
+  final DocumentReference select;
+
+  const cart({super.key, required this.select});
 
   @override
   State<cart> createState() => _cartState();
 }
 
+int orderNumber = 100;
+
 // ignore: camel_case_types
 class _cartState extends State<cart> {
   final String currentUserEmail = FirebaseAuth.instance.currentUser!.email!;
 
-  Future<void> sendUserDataToDB(List<DocumentSnapshot> cartDocuments) async {
-    // Get a reference to the Firestore database.
-    final FirebaseFirestore firestore = FirebaseFirestore.instance;
+  Future<void> saveOrder() async {
+    // ประกาศตัวแปร data ก่อนการเรียกใช้ StreamBuilder
+    final DocumentSnapshot data = await widget.select.get();
 
-    // Create a new collection called "Orders".
-    final CollectionReference ordersCollection = firestore.collection('Orders');
+    // บันทึกข้อมูลลงใน Firebase
+    final FirebaseAuth auth = FirebaseAuth.instance;
 
-    // Iterate over the cart documents and add each one to the Firestore database.
-    for (final DocumentSnapshot document in cartDocuments) {
-      final Map<String, dynamic> data = document.data() as Map<String, dynamic>;
+    Map<String, dynamic> datamenu = {
+      'เมนู': data['เมนู'],
+      'รายละเอียด': data['รายละเอียด'],
+      'อื่นๆ': data['อื่นๆ'],
+      // ignore: equal_keys_in_map
+      'เพิ่มเติม': data['เพิ่มเติม'],
+      'ไข่': data['ไข่'],
+      'ราคา': data['ราคา'], // Format the price to 2 decimal places
+      'จำนวน': data['จำนวน'],
+      'รวม': data['รวม'],
+      'เลขออเดอร์': ((orderNumber++).toString()).substring(1),
+      'วันที่และเวลา':
+          DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
+      'ชื่อร้านค้า': data['ชื่อร้านค้า']
+    };
 
-      // Add the document to the Firestore database.
-      await ordersCollection.add(data);
+    var currentUser = auth.currentUser;
+    if (currentUser != null) {
+      // ตรวจสอบเมนูที่สั่ง
+      if (data['ชื่อร้านค้า'].contains('ข้าวมันไก่')) {
+        // บันทึกข้อมูลไปยัง Ordershop อีเมลล์palmloveconan@gmail.com
+        CollectionReference userMainCollection =
+            FirebaseFirestore.instance.collection("Shop");
+
+        CollectionReference ShopOrderSubCollection = userMainCollection
+            .doc('palmdisaster2843@gmail.com')
+            .collection('Ordershop');
+
+        await ShopOrderSubCollection.doc(datamenu['เมนู']).set(datamenu);
+      } else {
+        // บันทึกข้อมูลไปยัง Ordershop อีเมลล์tbk1243@gmail.com
+        CollectionReference userMainCollection =
+            FirebaseFirestore.instance.collection("Shop");
+
+        CollectionReference ShopOrderSubCollection =
+            userMainCollection.doc('tbk1243@gmail.com').collection('Ordershop');
+
+        await ShopOrderSubCollection.doc(datamenu['เมนู']).set(datamenu);
+      }
+
+      // ลบข้อมูลในหน้า Cart
+      const Scaffold(
+        body: Text('ไม่มีข้อมูล'),
+      );
     }
+
+    // แสดงข้อความแจ้งเตือน
+    // ignore: use_build_context_synchronously
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('ข้อมูลถูกบันทึกสำเร็จ'),
+      ),
+    );
   }
 
   @override
@@ -106,26 +157,28 @@ class _cartState extends State<cart> {
               return const Text("ไม่มีข้อมูล");
             },
           ),
-          // Positioned(
-          //   bottom: 10,
-          //   right: 15,
-          //   child:
-          //   Container( color: Colors.green.shade300,
-          //     child: IconButton(
-
-          //       onPressed: () {
-
-          //       },
-
-          //       icon: const Row(mainAxisAlignment: MainAxisAlignment.center,
-          //         children: [ Text('สั่งซื้อ',style: TextStyle(fontSize: 25),),
-          //           Icon(Icons.shopping_cart),
-          //         ],
-          //       ),
-
-          //     ),
-          //   ),
-          // ),
+          Positioned(
+            bottom: 10,
+            right: 15,
+            child: Container(
+              color: Colors.green.shade300,
+              child: IconButton(
+                onPressed: () {
+                  saveOrder();
+                },
+                icon: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Text(
+                      'สั่งซื้อ',
+                      style: TextStyle(fontSize: 25),
+                    ),
+                    Icon(Icons.shopping_cart),
+                  ],
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );

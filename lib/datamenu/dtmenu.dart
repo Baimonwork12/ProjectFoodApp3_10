@@ -16,6 +16,7 @@ class Dtmenu extends StatefulWidget {
 }
 
 class _DtmenumankaiState extends State<Dtmenu> {
+  final bool toggleable = true;
   late Stream<DocumentSnapshot> documentStream;
 
   String? get value => null;
@@ -24,6 +25,7 @@ class _DtmenumankaiState extends State<Dtmenu> {
   void initState() {
     documentStream = widget.selectItem.snapshots();
     nameshop = widget.nameshop;
+
     super.initState();
   }
 
@@ -88,6 +90,7 @@ class _DtmenumankaiState extends State<Dtmenu> {
   String other = '';
   String more = '';
   String egg = '';
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +102,7 @@ class _DtmenumankaiState extends State<Dtmenu> {
           key: formKey,
           child: Column(
             children: <Widget>[
-              Row(
+              const Row(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
                   Padding(
@@ -200,6 +203,7 @@ class _DtmenumankaiState extends State<Dtmenu> {
                 title: const Text('ไข่เจียว', style: TextStyle(fontSize: 20)),
                 value: 'ไข่เจียว',
                 groupValue: egg,
+                toggleable: true,
                 onChanged: (value) {
                   setState(() {
                     egg = value!;
@@ -224,6 +228,7 @@ class _DtmenumankaiState extends State<Dtmenu> {
                 title: const Text('ไข่ดาว', style: TextStyle(fontSize: 20)),
                 value: 'ไข่ดาว',
                 groupValue: egg,
+                toggleable: true,
                 onChanged: (value) {
                   setState(() {
                     egg = value!;
