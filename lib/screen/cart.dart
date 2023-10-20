@@ -18,69 +18,40 @@ int orderNumber = 100;
 
 // ignore: camel_case_types
 class _cartState extends State<cart> {
-  final String currentUserEmail = FirebaseAuth.instance.currentUser!.email!;
-
-  Future<void> saveOrder() async {
-    // ประกาศตัวแปร data ก่อนการเรียกใช้ StreamBuilder
-    final DocumentSnapshot data = await widget.select.get();
-
-    // บันทึกข้อมูลลงใน Firebase
-    final FirebaseAuth auth = FirebaseAuth.instance;
-
-    Map<String, dynamic> datamenu = {
-      'เมนู': data['เมนู'],
-      'รายละเอียด': data['รายละเอียด'],
-      'อื่นๆ': data['อื่นๆ'],
-      // ignore: equal_keys_in_map
-      'เพิ่มเติม': data['เพิ่มเติม'],
-      'ไข่': data['ไข่'],
-      'ราคา': data['ราคา'], // Format the price to 2 decimal places
-      'จำนวน': data['จำนวน'],
-      'รวม': data['รวม'],
-      'เลขออเดอร์': ((orderNumber++).toString()).substring(1),
-      'วันที่และเวลา':
-          DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
-      'ชื่อร้านค้า': data['ชื่อร้านค้า']
-    };
-
-    var currentUser = auth.currentUser;
-    if (currentUser != null) {
-      // ตรวจสอบเมนูที่สั่ง
-      if (data['ชื่อร้านค้า'].contains('ข้าวมันไก่')) {
-        // บันทึกข้อมูลไปยัง Ordershop อีเมลล์palmloveconan@gmail.com
-        CollectionReference userMainCollection =
-            FirebaseFirestore.instance.collection("Shop");
-
-        CollectionReference ShopOrderSubCollection = userMainCollection
-            .doc('palmdisaster2843@gmail.com')
-            .collection('Ordershop');
-
-        await ShopOrderSubCollection.doc(datamenu['เมนู']).set(datamenu);
-      } else {
-        // บันทึกข้อมูลไปยัง Ordershop อีเมลล์tbk1243@gmail.com
-        CollectionReference userMainCollection =
-            FirebaseFirestore.instance.collection("Shop");
-
-        CollectionReference ShopOrderSubCollection =
-            userMainCollection.doc('tbk1243@gmail.com').collection('Ordershop');
-
-        await ShopOrderSubCollection.doc(datamenu['เมนู']).set(datamenu);
-      }
-
-      // ลบข้อมูลในหน้า Cart
-      const Scaffold(
-        body: Text('ไม่มีข้อมูล'),
-      );
+  List<Map<String, dynamic>> dataList = [];
+  Future<void> placeOrder(List<Map<String, dynamic>> dataList) async {
+    for (var data in dataList) {
+      Map<String, dynamic> datamenu = {
+        'เมนู': data['เมนู'],
+        'รายละเอียด': data['รายละเอียด'],
+        'อื่นๆ': data['อื่นๆ'],
+// ignore: equal_keys_in_map
+        'เพิ่มเติม': data['เพิ่มเติม'],
+        'ไข่': data['ไข่'],
+        'ราคา': data['ราคา'], // Format the price to 2 decimal places
+        'จำนวน': data['จำนวน'],
+        'รวม': data['รวม'],
+        'เลขออเดอร์': ((orderNumber++).toString()).substring(1),
+        'วันที่และเวลา':
+            DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
+        'ชื่อร้าน': data['ชื่อร้านค้า']
+      };
+      FirebaseFirestore.instance
+          .collection('Shop')
+          .doc('tbk1243@gmail.com')
+          .collection('Ordershop')
+          .add(datamenu)
+          .then((value) {
+// ดำเนินการหลังจากเพิ่มข้อมูลสำเร็จ
+        print("ส่งออเดอร์สำเร็จ");
+      }).catchError((error) {
+// ดำเนินการหากเกิดข้อผิดพลาดในการเพิ่มข้อมูล
+        print('Failed to place order: $error');
+      });
     }
-
-    // แสดงข้อความแจ้งเตือน
-    // ignore: use_build_context_synchronously
-    ScaffoldMessenger.of(context).showSnackBar(
-      const SnackBar(
-        content: Text('ข้อมูลถูกบันทึกสำเร็จ'),
-      ),
-    );
   }
+
+  final String currentUserEmail = FirebaseAuth.instance.currentUser!.email!;
 
   @override
   Widget build(BuildContext context) {
@@ -120,6 +91,7 @@ class _cartState extends State<cart> {
                   itemCount: documents.length,
                   itemBuilder: (context, index) {
                     final data = documents[index];
+
                     if (data['เมนู'] != null) {
                       return ListTile(
                         title: Text(data['เมนู'],
@@ -164,7 +136,7 @@ class _cartState extends State<cart> {
               color: Colors.green.shade300,
               child: IconButton(
                 onPressed: () {
-                  saveOrder();
+                  placeOrder(dataList);
                 },
                 icon: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,
