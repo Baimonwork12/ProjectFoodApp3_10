@@ -4,50 +4,48 @@ import 'package:flutter/material.dart';
 import 'package:food_app/screen/listmenu.dart';
 import 'package:intl/intl.dart';
 
-// ignore: camel_case_types
-class cart extends StatefulWidget {
+class Cart extends StatefulWidget {
   final DocumentReference select;
 
-  const cart({super.key, required this.select});
+  const Cart({Key? key, required this.select}) : super(key: key);
 
   @override
-  State<cart> createState() => _cartState();
+  State<Cart> createState() => _CartState();
 }
 
 int orderNumber = 100;
 
-// ignore: camel_case_types
-class _cartState extends State<cart> {
+class _CartState extends State<Cart> {
   List<Map<String, dynamic>> dataList = [];
-  Future<void> placeOrder(List<Map<String, dynamic>> dataList) async {
+  List<String> selectedOrders = [];
+  Future<void> placeOrder() async {
     for (var data in dataList) {
-      Map<String, dynamic> datamenu = {
-        'เมนู': data['เมนู'],
-        'รายละเอียด': data['รายละเอียด'],
-        'อื่นๆ': data['อื่นๆ'],
-// ignore: equal_keys_in_map
-        'เพิ่มเติม': data['เพิ่มเติม'],
-        'ไข่': data['ไข่'],
-        'ราคา': data['ราคา'], // Format the price to 2 decimal places
-        'จำนวน': data['จำนวน'],
-        'รวม': data['รวม'],
-        'เลขออเดอร์': ((orderNumber++).toString()).substring(1),
-        'วันที่และเวลา':
-            DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
-        'ชื่อร้าน': data['ชื่อร้านค้า']
-      };
-      FirebaseFirestore.instance
-          .collection('Shop')
-          .doc('tbk1243@gmail.com')
-          .collection('Ordershop')
-          .add(datamenu)
-          .then((value) {
-// ดำเนินการหลังจากเพิ่มข้อมูลสำเร็จ
-        print("ส่งออเดอร์สำเร็จ");
-      }).catchError((error) {
-// ดำเนินการหากเกิดข้อผิดพลาดในการเพิ่มข้อมูล
-        print('Failed to place order: $error');
-      });
+      if (selectedOrders.contains(data['เมนู'])) {
+        Map<String, dynamic> datamenu = {
+          'เมนู': data['เมนู'],
+          'รายละเอียด': data['รายละเอียด'],
+          'อื่นๆ': data['อื่นๆ'],
+          'เพิ่มเติม': data['เพิ่มเติม'],
+          'ไข่': data['ไข่'],
+          'ราคา': data['ราคา'], // Format the price to 2 decimal places
+          'จำนวน': data['จำนวน'],
+          'รวม': data['รวม'],
+          'เลขออเดอร์': ((orderNumber++).toString()).substring(1),
+          'วันที่และเวลา':
+              DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
+          'ชื่อร้าน': data['ชื่อร้านค้า']
+        };
+        FirebaseFirestore.instance
+            .collection('Shop')
+            .doc('tbk1243@gmail.com')
+            .collection('Ordershop')
+            .add(datamenu)
+            .then((value) {
+          print("ส่งออเดอร์สำเร็จ");
+        }).catchError((error) {
+          print('Failed to place order: $error');
+        });
+      }
     }
   }
 
@@ -93,19 +91,23 @@ class _cartState extends State<cart> {
                     final data = documents[index];
 
                     if (data['เมนู'] != null) {
+                      bool isChecked = selectedOrders.contains(data['เมนู']);
                       return ListTile(
                         title: Text(data['เมนู'],
                             style: const TextStyle(fontSize: 20)),
                         subtitle: Text(data['จำนวน'].toString(),
                             style: const TextStyle(fontSize: 20)),
-                        trailing: IconButton(
-                          onPressed: () {
-                            documents[index].reference.delete();
+                        trailing: Checkbox(
+                          value: isChecked,
+                          onChanged: (bool? value) {
+                            setState(() {
+                              if (value == true) {
+                                selectedOrders.add(data['เมนู']);
+                              } else {
+                                selectedOrders.remove(data['เมนู']);
+                              }
+                            });
                           },
-                          icon: const Icon(
-                            Icons.delete,
-                            color: Colors.red,
-                          ),
                         ),
                         onTap: () {
                           Navigator.push(
@@ -120,7 +122,6 @@ class _cartState extends State<cart> {
                         },
                       );
                     } else {
-                      // กรณีข้อมูลเป็น null หรือไม่มีข้อมูลที่ต้องการ
                       return Container();
                     }
                   },
@@ -136,7 +137,7 @@ class _cartState extends State<cart> {
               color: Colors.green.shade300,
               child: IconButton(
                 onPressed: () {
-                  placeOrder(dataList);
+                  placeOrder();
                 },
                 icon: const Row(
                   mainAxisAlignment: MainAxisAlignment.center,

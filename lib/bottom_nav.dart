@@ -34,7 +34,7 @@ class _MyNavigatorState extends State<MyNavigator> {
     return [
       const order(),
       const Homepage(),
-      cart(
+      Cart(
           select:
               FirebaseFirestore.instance.collection('Shop').doc(_user!.email)),
       Profile(
