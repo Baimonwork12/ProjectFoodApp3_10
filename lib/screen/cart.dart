@@ -13,7 +13,7 @@ class Cart extends StatefulWidget {
   State<Cart> createState() => _CartState();
 }
 
-int orderNumber = 100;
+int orderNumber = 1;
 int orderss = 0;
 
 class _CartState extends State<Cart> {
@@ -53,7 +53,7 @@ class _CartState extends State<Cart> {
         'ราคา': doc['ราคา'], // Format the price to 2 decimal places
         'จำนวน': doc['จำนวน'],
         'รวม': doc['รวม'],
-        'เลขออเดอร์': ((orderNumber++).toString()).substring(1),
+        'เลขออเดอร์': ((orderNumber++).toString()),
         'วันที่และเวลา':
             DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
         'ชื่อร้าน': doc['ชื่อร้านค้า'],
@@ -64,7 +64,7 @@ class _CartState extends State<Cart> {
           .collection('Shop')
           .doc('tbk1243@gmail.com')
           .collection('Ordershop')
-          .doc(((orderNumber++).toString()))
+          .doc(((orderNumber).toString()))
           .set(data)
           .then((value) => {print('ส่งออเดอร์สำเร็จ')});
     });
