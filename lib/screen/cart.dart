@@ -14,39 +14,66 @@ class Cart extends StatefulWidget {
 }
 
 int orderNumber = 100;
+int orderss = 0;
 
 class _CartState extends State<Cart> {
-  List<Map<String, dynamic>> dataList = [];
-  List<String> selectedOrders = [];
   Future<void> placeOrder() async {
-    for (var data in dataList) {
-      if (selectedOrders.contains(data['เมนู'])) {
-        Map<String, dynamic> datamenu = {
-          'เมนู': data['เมนู'],
-          'รายละเอียด': data['รายละเอียด'],
-          'อื่นๆ': data['อื่นๆ'],
-          'เพิ่มเติม': data['เพิ่มเติม'],
-          'ไข่': data['ไข่'],
-          'ราคา': data['ราคา'], // Format the price to 2 decimal places
-          'จำนวน': data['จำนวน'],
-          'รวม': data['รวม'],
-          'เลขออเดอร์': ((orderNumber++).toString()).substring(1),
-          'วันที่และเวลา':
-              DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
-          'ชื่อร้าน': data['ชื่อร้านค้า']
-        };
-        FirebaseFirestore.instance
-            .collection('Shop')
-            .doc('tbk1243@gmail.com')
-            .collection('Ordershop')
-            .add(datamenu)
-            .then((value) {
-          print("ส่งออเดอร์สำเร็จ");
-        }).catchError((error) {
-          print('Failed to place order: $error');
-        });
-      }
-    }
+    // List dataArray = [];
+    // List<List> dataArray2 = [];
+
+    FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+    QuerySnapshot querySnapshot = await firestore
+        .collection('users')
+        .doc(currentUserEmail)
+        .collection('Orderuser')
+        .get();
+
+    querySnapshot.docs.forEach((doc) async {
+      // dataArray.add(doc['จำนวน']);
+      // dataArray.add(doc['ชื่อร้านค้า']);
+      // dataArray.add(doc['รวม']);
+      // dataArray.add(doc['ราคา']);
+      // dataArray.add(doc['รายละเอียด']);
+      // dataArray.add(doc['อื่นๆ']);
+      // dataArray.add(doc['เพิ่มเติม']);
+      // dataArray.add(doc['เมนู']);
+      // dataArray.add(doc['ไข่']);
+      // print(dataArray);
+      // dataArray2.add(dataArray);
+      // dataArray.clear();
+
+      // dataArray.add(doc['เมนู']);
+      Map<String, dynamic> data = {
+        'เมนู': doc['เมนู'],
+        'รายละเอียด': doc['รายละเอียด'],
+        'อื่นๆ': doc['อื่นๆ'],
+        'เพิ่มเติม': doc['เพิ่มเติม'],
+        'ไข่': doc['ไข่'],
+        'ราคา': doc['ราคา'], // Format the price to 2 decimal places
+        'จำนวน': doc['จำนวน'],
+        'รวม': doc['รวม'],
+        'เลขออเดอร์': ((orderNumber++).toString()).substring(1),
+        'วันที่และเวลา':
+            DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
+        'ชื่อร้าน': doc['ชื่อร้านค้า'],
+      };
+
+      // ignore: avoid_single_cascade_in_expression_statements
+      await FirebaseFirestore.instance
+          .collection('Shop')
+          .doc('tbk1243@gmail.com')
+          .collection('Ordershop')
+          .doc(((orderNumber++).toString()))
+          .set(data)
+          .then((value) => {print('ส่งออเดอร์สำเร็จ')});
+    });
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      const SnackBar(
+        content: Text('ข้อมูลถูกบันทึกสำเร็จ'),
+      ),
+    );
   }
 
   final String currentUserEmail = FirebaseAuth.instance.currentUser!.email!;
@@ -91,24 +118,32 @@ class _CartState extends State<Cart> {
                     final data = documents[index];
 
                     if (data['เมนู'] != null) {
-                      bool isChecked = selectedOrders.contains(data['เมนู']);
+                      // bool isChecked = selectedOrders.contains(data['เมนู']);
                       return ListTile(
                         title: Text(data['เมนู'],
                             style: const TextStyle(fontSize: 20)),
                         subtitle: Text(data['จำนวน'].toString(),
                             style: const TextStyle(fontSize: 20)),
-                        trailing: Checkbox(
-                          value: isChecked,
-                          onChanged: (bool? value) {
-                            setState(() {
-                              if (value == true) {
-                                selectedOrders.add(data['เมนู']);
-                              } else {
-                                selectedOrders.remove(data['เมนู']);
-                              }
-                            });
-                          },
-                        ),
+                        trailing: IconButton(
+                            onPressed: () {
+                              documents[index].reference.delete();
+                            },
+                            icon: Icon(
+                              Icons.delete,
+                              color: Colors.red,
+                            )),
+                        // Checkbox(
+                        //   value: isChecked,
+                        //   onChanged: (bool? value) {
+                        //     setState(() {
+                        //       if (value == true) {
+                        //         selectedOrders.add(data['เมนู']);
+                        //       } else {
+                        //         selectedOrders.remove(data['เมนู']);
+                        //       }
+                        //     });
+                        //   },
+                        // ),
                         onTap: () {
                           Navigator.push(
                             context,

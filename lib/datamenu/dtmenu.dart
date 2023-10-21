@@ -295,22 +295,23 @@ class _DtmenumankaiState extends State<Dtmenu> {
                 height: 10,
               ),
               OutlinedButton(
-                  onPressed: () {
-                    sendOrder();
-                    Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const MyNavigator()));
-                  },
-                  child: const Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.shopping_cart),
-                      Text(
-                        'เพิ่มลงตะกร้า',
-                      ),
-                    ],
-                  ))
+                onPressed: () async {
+                  await sendOrder();
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                        builder: (context) => const MyNavigator()),
+                  );
+                },
+                child: const Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(Icons.shopping_cart),
+                    Text('เพิ่มลงตะกร้า'),
+                  ],
+                ),
+              ),
+
               // เพิ่ม RadioListTile อื่น ๆ ตามต้องการ
             ],
           ),

@@ -35,7 +35,8 @@ class _ListviewmenuState extends State<Listviewmenu> {
       'เลขออเดอร์': ((orderNumber++).toString()).substring(1),
       'วันที่และเวลา':
           DateFormat('dd MMMM yyyy HH:mm').format(DateTime.now()) + ' น.',
-      'ชื่อร้าน': data['ชื่อร้านค้า']
+      'ชื่อร้าน': data['ชื่อร้านค้า'],
+      // 'data': data,
     };
 
     var currentUser = auth.currentUser;
@@ -48,7 +49,7 @@ class _ListviewmenuState extends State<Listviewmenu> {
 
         CollectionReference ShopOrderSubCollection = userMainCollection
             .doc('palmdisaster2843@gmail.com')
-            .collection('Ordershop');
+            .collection('abc');
 
         await ShopOrderSubCollection.doc(datamenu['เมนู']).set(datamenu);
       } else {
@@ -59,7 +60,7 @@ class _ListviewmenuState extends State<Listviewmenu> {
         CollectionReference ShopOrderSubCollection =
             userMainCollection.doc('tbk1243@gmail.com').collection('Ordershop');
 
-        await ShopOrderSubCollection.doc(datamenu['เมนู']).set(datamenu);
+        await ShopOrderSubCollection.doc(datamenu['ชื่อร้าน']).set(datamenu);
       }
 
       // ลบข้อมูลในหน้า Cart
@@ -125,6 +126,7 @@ class _ListviewmenuState extends State<Listviewmenu> {
                     style: const TextStyle(fontSize: 20)),
                 Text('ราคา: ${data['รวม']}',
                     style: const TextStyle(fontSize: 20)),
+                IconButton(onPressed: () {}, icon: Icon(Icons.add))
                 // ตรงนี้คุณสามารถแสดงข้อมูลเพิ่มเติมจากเมนูที่ผู้ใช้คลิกได้ตามความต้องการ
               ],
             );
@@ -159,7 +161,7 @@ class _ListviewmenuState extends State<Listviewmenu> {
               color: Colors.green,
               child: // ปรับเปลี่ยนการทำงานของปุ่มสั่งซื้อ
                   TextButton(
-                child: const Text('สั่งซื้อ ',
+                child: const Text('ยืนยัน ',
                     style: TextStyle(fontSize: 30, color: Colors.white)),
                 onPressed: () {
                   saveOrder();
