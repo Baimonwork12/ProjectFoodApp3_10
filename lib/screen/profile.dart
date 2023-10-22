@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
-import 'package:food_app/screen/login.dart';
+import 'package:food_app/screen/home.dart';
+
 import 'package:google_sign_in/google_sign_in.dart';
 
 class Profile extends StatefulWidget {
@@ -28,7 +29,7 @@ class _ProfileState extends State<Profile> {
     print("User Sign Out");
     // ignore: use_build_context_synchronously
     Navigator.push(
-        context, MaterialPageRoute(builder: (context) => const MyWidget()));
+        context, MaterialPageRoute(builder: (context) => const Home()));
   }
 
   @override

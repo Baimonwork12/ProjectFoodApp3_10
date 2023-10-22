@@ -1,73 +1,18 @@
-// ignore_for_file: use_build_context_synchronously
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-
-import 'package:food_app/bottom_nav.dart';
 import 'package:food_app/shop/adddata/add_datashop.dart';
 import 'package:food_app/shop/bottom_shop.dart';
-
 import 'package:google_sign_in/google_sign_in.dart';
 
-class MyWidget extends StatefulWidget {
-  const MyWidget({super.key});
+class Loginshop extends StatefulWidget {
+  const Loginshop({super.key});
 
   @override
-  State<MyWidget> createState() => _MyWidgetState();
+  State<Loginshop> createState() => _LoginshopState();
 }
 
-class _MyWidgetState extends State<MyWidget> {
-  Future<UserCredential?> signInWithGoogleuser() async {
-    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-
-    if (googleUser == null) {
-      // ไม่ได้ล็อกอินด้วย Google
-      return null;
-    }
-
-    final GoogleSignInAuthentication googleAuth =
-        await googleUser.authentication;
-    final AuthCredential credential = GoogleAuthProvider.credential(
-      accessToken: googleAuth.accessToken,
-      idToken: googleAuth.idToken,
-    );
-
-    try {
-      final UserCredential authResult =
-          await FirebaseAuth.instance.signInWithCredential(credential);
-
-      // เก็บข้อมูลผู้ใช้ลงใน Firebase
-      final User user = authResult.user!;
-      await saveUserDataToFirebase(user);
-      Navigator.push(context,
-          MaterialPageRoute(builder: (context) => const MyNavigator()));
-
-      return authResult;
-    } catch (e) {
-      return null;
-    }
-  }
-
-//เก็บข้อมูลไปที่ users
-  Future<void> saveUserDataToFirebase(User user) async {
-    final firestore = FirebaseFirestore.instance;
-    // หรือใช้ FirebaseDatabase เมื่อใช้ Firebase Realtime Database
-    final userData = {
-      'email': user.email,
-      'displayName': user.displayName,
-      'photoURL': user.photoURL,
-      // เพิ่มข้อมูลอื่น ๆ ที่คุณต้องการเก็บได้ตามต้องการ
-    };
-
-    try {
-      await firestore.collection('users').doc(user.email).set(userData);
-      // ignore: empty_catches
-    } catch (e) {}
-  }
-  // ฟังก์ชั่นSig
-
-  // ignore: non_constant_identifier_names
+class _LoginshopState extends State<Loginshop> {
   CollectionReference ShopCollection =
       FirebaseFirestore.instance.collection("Shop");
   Future<void> signInWithGoogleshop() async {
@@ -149,23 +94,15 @@ class _MyWidgetState extends State<MyWidget> {
           ),
           OutlinedButton(
               onPressed: () async {
-                await signInWithGoogleuser();
-              },
-              child: const Text(
-                'Log in with Google ลูกค้า',
-                style: TextStyle(fontSize: 20),
-              )),
-          const SizedBox(
-            height: 20,
-          ),
-          OutlinedButton(
-              onPressed: () async {
                 await signInWithGoogleshop();
               },
               child: const Text(
                 'Log in with Google ร้านค้า',
                 style: TextStyle(fontSize: 20),
-              ))
+              )),
+          const SizedBox(
+            height: 20,
+          ),
         ],
       ),
     ));
