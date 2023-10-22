@@ -126,7 +126,7 @@ class _ListviewmenuState extends State<Listviewmenu> {
                     style: const TextStyle(fontSize: 20)),
                 Text('ราคา: ${data['รวม']}',
                     style: const TextStyle(fontSize: 20)),
-                IconButton(onPressed: () {}, icon: Icon(Icons.add))
+
                 // ตรงนี้คุณสามารถแสดงข้อมูลเพิ่มเติมจากเมนูที่ผู้ใช้คลิกได้ตามความต้องการ
               ],
             );

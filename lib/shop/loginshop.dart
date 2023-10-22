@@ -89,17 +89,20 @@ class _LoginshopState extends State<Loginshop> {
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: Image.asset('images/logo.png'),
+            padding: const EdgeInsets.fromLTRB(0, 30, 0, 0),
+            child: Image.asset('images/shop.png'),
           ),
-          OutlinedButton(
-              onPressed: () async {
-                await signInWithGoogleshop();
-              },
-              child: const Text(
-                'Log in with Google ร้านค้า',
-                style: TextStyle(fontSize: 20),
-              )),
+          Padding(
+            padding: const EdgeInsets.fromLTRB(0, 70, 0, 0),
+            child: OutlinedButton(
+                onPressed: () async {
+                  await signInWithGoogleshop();
+                },
+                child: const Text(
+                  'Log in with Google ร้านค้า',
+                  style: TextStyle(fontSize: 20),
+                )),
+          ),
           const SizedBox(
             height: 20,
           ),
